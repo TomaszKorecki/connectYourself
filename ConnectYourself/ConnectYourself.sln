@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectYourself", "ConnectYourself\ConnectYourself.csproj", "{60E328C5-0DF2-4806-B5FD-D27ECD733F43}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectYourself.Tests", "ConnectYourself.Tests\ConnectYourself.Tests.csproj", "{B1F345F1-FA8E-4CF1-9B93-ED7FAEBC96E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connectYourselfAPI", "connectYourselfAPI\connectYourselfAPI.csproj", "{A3946887-B3CE-4B94-BC0E-5CA2C5A38196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{60E328C5-0DF2-4806-B5FD-D27ECD733F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60E328C5-0DF2-4806-B5FD-D27ECD733F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60E328C5-0DF2-4806-B5FD-D27ECD733F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60E328C5-0DF2-4806-B5FD-D27ECD733F43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1F345F1-FA8E-4CF1-9B93-ED7FAEBC96E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1F345F1-FA8E-4CF1-9B93-ED7FAEBC96E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1F345F1-FA8E-4CF1-9B93-ED7FAEBC96E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1F345F1-FA8E-4CF1-9B93-ED7FAEBC96E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3946887-B3CE-4B94-BC0E-5CA2C5A38196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3946887-B3CE-4B94-BC0E-5CA2C5A38196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3946887-B3CE-4B94-BC0E-5CA2C5A38196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3946887-B3CE-4B94-BC0E-5CA2C5A38196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
