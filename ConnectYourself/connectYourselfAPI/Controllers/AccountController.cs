@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.Models;
@@ -14,11 +9,11 @@ namespace connectYourselfAPI.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private AuthRepository _repo = null;
+        private AuthRepository repository;
 
         public AccountController()
         {
-            _repo = new AuthRepository();
+            repository = new AuthRepository();
         }
 
         // POST api/Account/Register
@@ -31,7 +26,7 @@ namespace connectYourselfAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await _repo.RegisterUser(userModel);
+            IdentityResult result = await repository.RegisterUser(userModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -47,7 +42,7 @@ namespace connectYourselfAPI.Controllers
         {
             if (disposing)
             {
-                _repo.Dispose();
+                repository.Dispose();
             }
 
             base.Dispose(disposing);
