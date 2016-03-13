@@ -8,6 +8,6 @@ namespace connectYourselfAPI.Models
 {
     public class AppUser : IdentityUser
     {
-
+        public const string AppUserTableName = "appusers";
     }
 }

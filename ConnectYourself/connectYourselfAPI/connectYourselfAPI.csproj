@@ -196,7 +196,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -207,7 +209,7 @@
     <Compile Include="AuthProviders\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="DBContexts\AuthContext.cs" />
+    <Compile Include="DBContexts\AppUserContext.cs" />
     <Compile Include="DBContexts\AuthRepository.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\UserModel.cs" />

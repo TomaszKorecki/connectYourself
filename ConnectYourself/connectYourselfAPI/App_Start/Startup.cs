@@ -13,7 +13,7 @@ namespace connectYourselfAPI.App_Start
         public void Configuration(IAppBuilder app)
         {
             ConfigureOAuth(app);
-
+            
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
 

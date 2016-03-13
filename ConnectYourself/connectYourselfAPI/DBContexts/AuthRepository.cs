@@ -14,7 +14,7 @@ namespace connectYourselfAPI.DBContexts
         public AuthRepository() {
             MongoClient client = new MongoClient();
 
-            AuthContext context = new AuthContext(client.GetDatabase("").GetCollection<AppUser>("AppUser"));
+            AppUserContext context = AppUserContext.Create();
             UserStore<AppUser> userStore = new UserStore<AppUser>(context.Users);
 
             userManager = new UserManager<AppUser>(userStore);
@@ -32,16 +32,15 @@ namespace connectYourselfAPI.DBContexts
             return result;
         }
 
-        public async Task<IdentityUser> FindUser(string userName, string password)
+        public async Task<AppUser> FindUser(string userName, string password)
         {
-            IdentityUser user = await userManager.FindAsync(userName, password);
+            AppUser user = await userManager.FindAsync(userName, password);
 
             return user;
         }
 
         public void Dispose()
         {
-            //context.Dispose();
             userManager.Dispose();
         }
     }
