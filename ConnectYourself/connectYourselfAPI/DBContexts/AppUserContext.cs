@@ -16,14 +16,16 @@ namespace connectYourselfAPI.DBContexts
             var database = client.GetDatabase(mongoDBName);
 
             var users = database.GetCollection<AppUser>(AppUser.AppUserTableName, new MongoCollectionSettings() {AssignIdOnInsert = true});
-            return new AppUserContext(users);
-        }
 
-        public IMongoCollection<AppUser> Users { get; private set; }
+			return new AppUserContext(users);
+        }
+       
 
         public AppUserContext(IMongoCollection<AppUser> users)
         {
             Users = users;
         }
-    }
+
+		public IMongoCollection<AppUser> Users { get; private set; }
+	}
 }

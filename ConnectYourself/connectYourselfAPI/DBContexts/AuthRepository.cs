@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AspNet.Identity.MongoDB;
 using connectYourselfAPI.Models;
@@ -10,12 +11,11 @@ namespace connectYourselfAPI.DBContexts
     public class AuthRepository : IDisposable
     {
         private UserManager<AppUser> userManager;
+	    private AppUserContext appUserContext;
 
         public AuthRepository() {
-            MongoClient client = new MongoClient();
-
-            AppUserContext context = AppUserContext.Create();
-            UserStore<AppUser> userStore = new UserStore<AppUser>(context.Users);
+			appUserContext = AppUserContext.Create();
+            UserStore<AppUser> userStore = new UserStore<AppUser>(appUserContext.Users);
 
             userManager = new UserManager<AppUser>(userStore);
         }
@@ -39,7 +39,7 @@ namespace connectYourselfAPI.DBContexts
             return user;
         }
 
-        public void Dispose()
+		public void Dispose()
         {
             userManager.Dispose();
         }
