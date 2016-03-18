@@ -20,12 +20,6 @@ app.factory('authInterceptorService', ['$q', '$injector','$location', 'localStor
             var authService = $injector.get('authService');
             var authData = localStorageService.get('authorizationData');
 
-            if (authData) {
-                if (authData.useRefreshTokens) {
-                    $location.path('/refresh');
-                    return $q.reject(rejection);
-                }
-            }
             authService.logOut();
             $location.path('/login');
         }

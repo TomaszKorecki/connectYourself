@@ -1,169 +1,94 @@
 ﻿'use strict';
 app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
 
-    var apiServiceBaseUri = ngAuthSettings.apiServiceBaseUri;
-    var authServiceFactory = {};
+	var apiServiceBaseUri = ngAuthSettings.apiServiceBaseUri;
+	var authServiceFactory = {};
 
-    var _authentication = {
-        isAuth: false,
-        userName: "",
-        useRefreshTokens: false
-    };
+	var _authentication = {
+		isAuth: false,
+		userName: "",
+	};
 
-    var _externalAuthData = {
-        provider: "",
-        userName: "",
-        externalAccessToken: ""
-    };
+	var _saveRegistration = function (registration) {
 
-    var _saveRegistration = function (registration) {
+		_logOut();
 
-        _logOut();
+		return $http.post(apiServiceBaseUri + 'api/account/register', registration).then(function (response) {
+			return response;
+		});
 
-        return $http.post(apiServiceBaseUri + 'api/account/register', registration).then(function (response) {
-            return response;
-        });
+	};
 
-    };
+	var _login = function (loginData) {
 
-    var _login = function (loginData) {
+		var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
 
-        var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
+		var deferred = $q.defer();
 
-        if (loginData.useRefreshTokens) {
-            data = data + "&client_id=" + ngAuthSettings.clientId;
-        }
+		$http.post(apiServiceBaseUri + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
-        var deferred = $q.defer();
+			localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName });
+			_authentication.isAuth = true;
+			_authentication.userName = loginData.userName;
 
-        $http.post(apiServiceBaseUri + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+			deferred.resolve(response);
 
-            if (loginData.useRefreshTokens) {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
-            }
-            else {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
-            }
-            _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
-            _authentication.useRefreshTokens = loginData.useRefreshTokens;
+		}).error(function (err, status) {
+			_logOut();
+			deferred.reject(err);
+		});
 
-            deferred.resolve(response);
+		return deferred.promise;
 
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
+	};
 
-        return deferred.promise;
+	var _logOut = function () {
 
-    };
+		localStorageService.remove('authorizationData');
 
-    var _logOut = function () {
+		_authentication.isAuth = false;
+		_authentication.userName = "";
+	};
 
-        localStorageService.remove('authorizationData');
+	var _fillAuthData = function () {
 
-        _authentication.isAuth = false;
-        _authentication.userName = "";
-        _authentication.useRefreshTokens = false;
+		var authData = localStorageService.get('authorizationData');
+		if (authData) {
+			_authentication.isAuth = true;
+			_authentication.userName = authData.userName;
+		}
+	};
 
-    };
+	var _obtainAccessToken = function (externalData) {
 
-    var _fillAuthData = function () {
+		var deferred = $q.defer();
 
-        var authData = localStorageService.get('authorizationData');
-        if (authData) {
-            _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
-            _authentication.useRefreshTokens = authData.useRefreshTokens;
-        }
-    };
+		$http.get(apiServiceBaseUri + 'api/account/ObtainLocalAccessToken', { params: { provider: externalData.provider, externalAccessToken: externalData.externalAccessToken } }).success(function (response) {
 
-    var _refreshToken = function () {
-        var deferred = $q.defer();
+			localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName});
 
-        var authData = localStorageService.get('authorizationData');
+			_authentication.isAuth = true;
+			_authentication.userName = response.userName;
 
-        if (authData) {
+			deferred.resolve(response);
 
-            if (authData.useRefreshTokens) {
+		}).error(function (err, status) {
+			_logOut();
+			deferred.reject(err);
+		});
 
-                var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + ngAuthSettings.clientId;
+		return deferred.promise;
 
-                localStorageService.remove('authorizationData');
+	};
 
-                $http.post(apiServiceBaseUri + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
-                    localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
+	authServiceFactory.saveRegistration = _saveRegistration;
+	authServiceFactory.login = _login;
+	authServiceFactory.logOut = _logOut;
+	authServiceFactory.fillAuthData = _fillAuthData;
+	authServiceFactory.authentication = _authentication;
 
-                    deferred.resolve(response);
+	authServiceFactory.obtainAccessToken = _obtainAccessToken;
 
-                }).error(function (err, status) {
-                    _logOut();
-                    deferred.reject(err);
-                });
-            }
-        }
-
-        return deferred.promise;
-    };
-
-    var _obtainAccessToken = function (externalData) {
-
-        var deferred = $q.defer();
-
-        $http.get(apiServiceBaseUri + 'api/account/ObtainLocalAccessToken', { params: { provider: externalData.provider, externalAccessToken: externalData.externalAccessToken } }).success(function (response) {
-
-            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: "", useRefreshTokens: false });
-
-            _authentication.isAuth = true;
-            _authentication.userName = response.userName;
-            _authentication.useRefreshTokens = false;
-
-            deferred.resolve(response);
-
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
-
-    };
-
-    var _registerExternal = function (registerExternalData) {
-
-        var deferred = $q.defer();
-
-        $http.post(apiServiceBaseUri + 'api/account/registerexternal', registerExternalData).success(function (response) {
-
-            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: "", useRefreshTokens: false });
-
-            _authentication.isAuth = true;
-            _authentication.userName = response.userName;
-            _authentication.useRefreshTokens = false;
-
-            deferred.resolve(response);
-
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
-
-    };
-
-    authServiceFactory.saveRegistration = _saveRegistration;
-    authServiceFactory.login = _login;
-    authServiceFactory.logOut = _logOut;
-    authServiceFactory.fillAuthData = _fillAuthData;
-    authServiceFactory.authentication = _authentication;
-    authServiceFactory.refreshToken = _refreshToken;
-
-    authServiceFactory.obtainAccessToken = _obtainAccessToken;
-    authServiceFactory.externalAuthData = _externalAuthData;
-    authServiceFactory.registerExternal = _registerExternal;
-
-    return authServiceFactory;
+	return authServiceFactory;
 }]);
