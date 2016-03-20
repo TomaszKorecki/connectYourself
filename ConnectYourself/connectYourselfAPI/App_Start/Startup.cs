@@ -6,36 +6,31 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 [assembly: OwinStartup(typeof(connectYourselfAPI.App_Start.Startup))]
-namespace connectYourselfAPI.App_Start
-{
-    public class Startup
-    {
-        public void Configuration(IAppBuilder app)
-        {
-            ConfigureOAuth(app);
-            
-            HttpConfiguration config = new HttpConfiguration();
-            WebApiConfig.Register(config);
+namespace connectYourselfAPI.App_Start {
+	public class Startup {
+		public void Configuration(IAppBuilder app) {
+			ConfigureOAuth(app);
 
-            //For allowing getting token from another apps
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            app.UseWebApi(config);
-        }
+			HttpConfiguration config = new HttpConfiguration();
+			WebApiConfig.Register(config);
 
-        public void ConfigureOAuth(IAppBuilder app)
-        {
-            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
-            {
-                AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new SimpleAuthorizationServerProvider(),
-            };
+			//For allowing getting token from another apps
+			app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+			app.UseWebApi(config);
+		}
 
-            // Token Generation
-            app.UseOAuthAuthorizationServer(OAuthServerOptions);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+		public void ConfigureOAuth(IAppBuilder app) {
+			OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions() {
+				AllowInsecureHttp = true,
+				TokenEndpointPath = new PathString("/token"),
+				AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+				Provider = new SimpleAuthorizationServerProvider(),
+			};
 
-        }
-    }
+			// Token Generation
+			app.UseOAuthAuthorizationServer(OAuthServerOptions);
+			app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
+		}
+	}
 }

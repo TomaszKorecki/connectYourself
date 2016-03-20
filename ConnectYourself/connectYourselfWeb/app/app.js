@@ -24,7 +24,6 @@ app.config(function ($routeProvider) {
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });
-
 });
 
 var serviceBase = 'http://localhost:55932/';

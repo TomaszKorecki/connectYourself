@@ -6,7 +6,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
 	var _authentication = {
 		isAuth: false,
-		userName: "",
+		userName: ""
 	};
 
 	var _saveRegistration = function (registration) {
