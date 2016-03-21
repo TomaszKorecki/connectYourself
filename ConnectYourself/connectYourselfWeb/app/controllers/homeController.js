@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('homeController', ['$scope', 'authService', function ($scope, authService) {
+app.controller('homeController', ['$scope', 'authService', 'devicesService', function ($scope, authService, deviceService) {
 	$scope.authentication = authService.authentication;
 
 	$scope.newDeviceData = {
@@ -8,6 +8,13 @@ app.controller('homeController', ['$scope', 'authService', function ($scope, aut
 	};
 
 	$scope.onAddDevice = function() {
-		console.log($scope.newDeviceData);
+		//console.log($scope.newDeviceData);
 	}
+
+	//deviceService.getDevices().then(function (results) {
+	//	$scope.devices = results.data;
+
+	//}, function (error) {
+	//	//alert(error.data.message);
+	//});
 }]);
