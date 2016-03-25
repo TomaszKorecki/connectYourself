@@ -7,20 +7,19 @@ using Microsoft.AspNet.Identity;
 namespace connectYourselfAPI.DBContexts {
 	public class AuthRepository : IDisposable {
 		private UserManager<AppUser> userManager;
-		private AppUserContext appUserContext;
 
 		public AuthRepository() {
-			appUserContext = AppUserContext.Create();
-			UserStore<AppUser> userStore = new UserStore<AppUser>(appUserContext.Users);
+			AppUserService appUserService = new AppUserService();
+			UserStore<AppUser> userStore = new UserStore<AppUser>(appUserService.Collection);
 			userManager = new UserManager<AppUser>(userStore);
 		}
 
-		public async Task<IdentityResult> RegisterUser(UserModel userModel) {
+		public async Task<IdentityResult> RegisterUser(RegisterUserViewModel registerUserViewModel) {
 			AppUser user = new AppUser {
-				UserName = userModel.UserName
+				UserName = registerUserViewModel.UserName
 			};
 
-			var result = await userManager.CreateAsync(user, userModel.Password);
+			var result = await userManager.CreateAsync(user, registerUserViewModel.Password);
 			return result;
 		}
 

@@ -6,8 +6,8 @@ using AspNet.Identity.MongoDB;
 
 namespace connectYourselfAPI.Models
 {
-	public class AppUser : IdentityUser
+	public class AppUser : IdentityUser, IMongoEntity
 	{
-		public const string AppUserTableName = "app_users";
+		string IMongoEntity.Id => base.Id;
 	}
 }

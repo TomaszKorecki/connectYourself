@@ -8,13 +8,16 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', fun
 	};
 
 	$scope.onAddDevice = function() {
-		//console.log($scope.newDeviceData);
+		console.log($scope.newDeviceData);
+		deviceService.addNewDevice($scope.newDeviceData).then(function(result) {
+			$scope.userDevices = result.data;
+		});
 	}
 
-	//deviceService.getDevices().then(function (results) {
-	//	$scope.devices = results.data;
-
-	//}, function (error) {
-	//	//alert(error.data.message);
-	//});
+	deviceService.getDevices().then(function (result) {
+		$scope.userDevices = result.data;
+		console.log($scope.userDevices);
+	}, function (error) {
+		alert(error.data.message);
+	});
 }]);

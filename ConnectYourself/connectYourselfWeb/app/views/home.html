@@ -1,5 +1,4 @@
 ﻿
-
 <div data-ng-hide="!authentication.isAuth">
 
 	<div class="container">
@@ -8,24 +7,21 @@
 		</div>
 	</div>
 
-	<div class="square thumbnail">
+	<div ng-repeat="device in userDevices" class="square thumbnail">
 		<div class="content">
-			98%
+			<button class="btn btn-danger btn-xs pull-right pull-up" ng-click="onRemoveDevice({device.id})">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</button>
+			{{device.name}}
 		</div>
 	</div>
 
-	<div class="square thumbnail">
-		<div class="content">
-			3.9/5
-		</div>
-	</div>
-
-	<div class="square thumbnail">
+	<!--<div class="square thumbnail">
 		<div class="content">
 			<img class="rs" src="https://farm3.staticflickr.com/2878/10944255073_973d2cd25c.jpg" />
 			Responsive image.
 		</div>
-	</div>
+	</div>-->
 
 	<div class="square  thumbnail">
 		<div class="content">

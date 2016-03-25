@@ -19,14 +19,14 @@ namespace connectYourselfAPI.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
+        public async Task<IHttpActionResult> Register(RegisterUserViewModel registerUserViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await repository.RegisterUser(userModel);
+            IdentityResult result = await repository.RegisterUser(registerUserViewModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 

@@ -1,0 +1,19 @@
+{
+  "name": "connectyourself",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Tomasz <tomasz-korecki@wp.pl>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/TomaszKorecki/connectYourself",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

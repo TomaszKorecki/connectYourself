@@ -24,9 +24,11 @@ namespace connectYourselfAPI.AuthProviders
         {
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-            using (AuthRepository authRepository = new AuthRepository())
+	        IdentityUser user;
+
+			using (AuthRepository authRepository = new AuthRepository())
             {
-                IdentityUser user = await authRepository.FindUser(context.UserName, context.Password);
+                user = await authRepository.FindUser(context.UserName, context.Password);
 
                 if (user == null)
                 {
@@ -38,9 +40,10 @@ namespace connectYourselfAPI.AuthProviders
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim("role", "user"));
+			identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
-            //Generating token
-            context.Validated(identity);
+			//Generating token
+			context.Validated(identity);
         }
 	}
 }
