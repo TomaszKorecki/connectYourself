@@ -22,3 +22,17 @@
     max-width:100%;
 }
 
+.animate-show {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+    opacity: 1;
+}
+
+.animate-show.ng-hide-add,
+.animate-show.ng-hide-remove {
+    display: inline-block !important;
+}
+.animate-show.ng-hide {
+    opacity: 0;
+}
+

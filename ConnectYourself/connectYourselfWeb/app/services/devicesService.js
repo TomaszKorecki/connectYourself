@@ -17,8 +17,15 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
+	var onRemoveDevice = function (device) {
+		return $http.delete(serviceBaseUri + 'api/devices/' + device.id).then(function (result) {
+			return result;
+		});
+	}
+
 	devicesServiceFactory.getDevices = getDevices;
 	devicesServiceFactory.addNewDevice = addNewDevice;
+	devicesServiceFactory.onRemoveDevice = onRemoveDevice;
 
 	return devicesServiceFactory;
 

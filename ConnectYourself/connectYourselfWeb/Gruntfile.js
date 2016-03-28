@@ -3,8 +3,7 @@ module.exports = function(grunt) {
     watch: {
       files: ['Gruntfile.js', 'content/css/*.css', 'app/**/*.js', 'app/**/*.html'],
       options: {
-                livereload: true,
-				port: 32150
+                livereload: true
         }
     }
   });

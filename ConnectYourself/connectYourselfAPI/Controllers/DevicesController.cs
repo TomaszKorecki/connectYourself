@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
 using System.Web.Http;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace connectYourselfAPI.Controllers
 {
@@ -24,8 +22,8 @@ namespace connectYourselfAPI.Controllers
 
 		[Authorize]
 		[HttpPost]
-		[Route("")]
-		public IHttpActionResult AddDevice(AddNewDeviceViewModel addNewDeviceViewModel) {
+		[Route]
+		public IHttpActionResult Post(AddNewDeviceViewModel addNewDeviceViewModel) {
 			var userId = User.Identity.GetUserId();
 			UserDeviceService userDeviceService = new UserDeviceService();
 
@@ -51,6 +49,27 @@ namespace connectYourselfAPI.Controllers
 			}
 
 			return Ok(userDeviceService.GetAllUserDevices(userId));
+		}
+
+		[Authorize]
+		public IHttpActionResult Delete(string id) {
+			UserDeviceService userDeviceService = new UserDeviceService();
+
+			if (id.IsNullOrWhiteSpace()) {
+				return BadRequest("Input is null");
+			}
+
+			if (!ModelState.IsValid) {
+				return BadRequest(ModelState);
+			}
+
+			try {
+				userDeviceService.Delete(id);
+				return Ok();
+			}
+			catch (Exception e) {
+				return InternalServerError(e);
+			}
 		}
     }
 }

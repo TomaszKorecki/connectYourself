@@ -7,10 +7,10 @@
 		</div>
 	</div>
 
-	<div ng-repeat="device in userDevices" class="square thumbnail">
+	<div ng-repeat="device in userDevices" class="square thumbnail" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
 		<div class="content">
-			<button class="btn btn-danger btn-xs pull-right pull-up" ng-click="onRemoveDevice({device.id})">
-				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			<button ng-show="hoverEdit" class="btn btn-danger btn-xs pull-right pull-up animate-show" ng-click="onRemoveDevice($index)">
+				<span  class="glyphicon glyphicon-remove "></span>
 			</button>
 			{{device.name}}
 		</div>
