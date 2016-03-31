@@ -1,6 +1,10 @@
 ﻿'use strict';
-app.controller('homeController', ['$scope', 'authService', 'devicesService', function ($scope, authService, deviceService) {
+app.controller('homeController', ['$scope', 'authService', 'devicesService', 'toaster', function ($scope, authService, deviceService, toaster) {
 	$scope.authentication = authService.authentication;
+
+	$scope.pop = function () {
+		toaster.pop('success', "title", "text");
+	};
 
 	$scope.newDeviceData = {
 		name: "",
@@ -15,10 +19,13 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', fun
 		this.hoverEdit = false;
 	};
 
-	$scope.onAddDevice = function() {
+	$scope.onAddDevice = function () {
 		console.log($scope.newDeviceData);
-		deviceService.addNewDevice($scope.newDeviceData).then(function(result) {
-			$scope.userDevices = result.data;
+		toaster.pop({ type: 'wait', body: "Adding device", toastId : 1 });
+		deviceService.addNewDevice($scope.newDeviceData).then(function (result) {
+			$scope.userDevices.push(result.data);
+			toaster.pop({ type: 'success', body: "Added successfully"});
+			toaster.clear(null, 1);
 		});
 	}
 
@@ -27,6 +34,13 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', fun
 		console.log(deviceToRemove);
 		deviceService.onRemoveDevice(deviceToRemove);
 		$scope.userDevices.splice(idx, 1);
+		toaster.pop({ type: 'warning', body: "Removed successfully" });
+	}
+
+	$scope.onChangeCacheData = function(idx) {
+		var deviceToChange = $scope.userDevices[idx];
+		deviceToChange.cacheData = !deviceToChange.cacheData;
+		deviceService.onChangeDevice(deviceToChange);
 	}
 
 	deviceService.getDevices().then(function (result) {

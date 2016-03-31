@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html data-ng-app="AngularAuthApp">
+<html data-ng-app="ConnectYourselfApp">
 <head>
 	<meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
 	<title>Connect Yourself</title>
@@ -9,6 +9,7 @@
 	<link href="content/css/loading-bar.css" rel="stylesheet" />
 	<link href="content/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="content/css/social-buttons.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.css" rel="stylesheet" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 <body>
@@ -36,6 +37,7 @@
 	</div>
 
 	<div class="container">
+		<toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-down-right'}"></toaster-container>
 		<div data-ng-view="">
 		</div>
 	</div>
@@ -54,6 +56,8 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
 	<script src="scripts/angular-local-storage.min.js"></script>
 	<script src="scripts/loading-bar.min.js"></script>
+	<script src="https://code.angularjs.org/1.2.0/angular-animate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.js"></script>
 	<script src="//localhost:35729/livereload.js"></script>
 	<!-- Load app main script -->
 	<script src="app/app.js?v=2"></script>

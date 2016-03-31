@@ -1,5 +1,5 @@
 ﻿
-var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
+var app = angular.module('ConnectYourselfApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'toaster', 'ngAnimate']);
 
 app.config(function ($routeProvider) {
 

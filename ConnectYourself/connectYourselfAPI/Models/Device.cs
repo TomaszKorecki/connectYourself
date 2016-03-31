@@ -8,12 +8,8 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace connectYourselfAPI.Models {
 	public class Device : IMongoEntity{
 
-		public Device() {
-			Id = ObjectId.GenerateNewId().ToString();
-		}
-
 		[BsonId]
-		public string Id { get; private set; }
+		public string Id { get; set; }
 		public string AppUserId { get; set; }
 		public string Name { get; set; }
 		public bool CacheData { get; set; }

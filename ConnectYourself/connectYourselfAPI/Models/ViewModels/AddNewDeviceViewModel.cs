@@ -8,6 +8,6 @@ namespace connectYourselfAPI.Models {
 	public class AddNewDeviceViewModel {
 		[Required]
 		public string Name { get; set; }
-		public bool CahceData { get; set; }
+		public bool? CacheData { get; set; }
 	}
 }

@@ -12,6 +12,15 @@
 			<button ng-show="hoverEdit" class="btn btn-danger btn-xs pull-right pull-up animate-show" ng-click="onRemoveDevice($index)">
 				<span  class="glyphicon glyphicon-remove "></span>
 			</button>
+
+			<button ng-show="hoverEdit" class="btn btn-info btn-xs pull-right pull-up animate-show" ng-click="onChangeCacheData($index)">
+				<span ng-if="device.cacheData == true" class="glyphicon glyphicon-floppy-saved"></span>
+				<span ng-if="device.cacheData == false" class="glyphicon glyphicon-floppy-remove"></span>
+			</button>
+
+			<button ng-show="hoverEdit" class="btn btn-danger btn-xs pull-right pull-down animate-show" ng-click="onReconnect($index)">
+				<span class="glyphicon glyphicon-refresh "></span>
+			</button>
 			{{device.name}}
 		</div>
 	</div>

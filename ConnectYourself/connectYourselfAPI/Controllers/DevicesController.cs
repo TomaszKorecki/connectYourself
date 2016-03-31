@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Net;
 using System.Web.Http;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.Models;
+using connectYourselfAPI.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using MongoDB.Bson;
 
 namespace connectYourselfAPI.Controllers
 {
@@ -36,8 +39,9 @@ namespace connectYourselfAPI.Controllers
 			}
 
 			Device device = new Device() {
+				Id = ObjectId.GenerateNewId().ToString(),
 				AppUserId = userId,
-				CacheData = addNewDeviceViewModel.CahceData,
+				CacheData = addNewDeviceViewModel.CacheData.GetValueOrDefault(),
 				Name = addNewDeviceViewModel.Name
 			};
 
@@ -48,7 +52,7 @@ namespace connectYourselfAPI.Controllers
 				return InternalServerError(e);
 			}
 
-			return Ok(userDeviceService.GetAllUserDevices(userId));
+			return Ok(device);
 		}
 
 		[Authorize]
@@ -71,5 +75,33 @@ namespace connectYourselfAPI.Controllers
 				return InternalServerError(e);
 			}
 		}
-    }
+
+		[Authorize]
+		[HttpPut]
+		[Route]
+		public IHttpActionResult Put(ChangeDeviceViewModel device) {
+			UserDeviceService userDeviceService = new UserDeviceService();
+
+			if (device == null) {
+				return BadRequest("Input is null");
+			}
+
+			if (!ModelState.IsValid) {
+				return BadRequest(ModelState);
+			}
+
+			try {
+				var oldDevice = userDeviceService.GetById(device.Id);
+				oldDevice.CacheData = device.CacheData;
+				var result = userDeviceService.Update(oldDevice);
+				if (result) {
+					return Ok();
+				} else {
+					return BadRequest("Entity cannot be modified");
+				}
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+	}
 }

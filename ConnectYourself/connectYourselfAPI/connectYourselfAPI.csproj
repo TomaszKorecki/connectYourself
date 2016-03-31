@@ -207,6 +207,7 @@
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\IMongoEntity.cs" />
+    <Compile Include="Models\ViewModels\ChangeDeviceViewModel.cs" />
     <Compile Include="Models\ViewModels\RegisterUserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Helper.cs" />

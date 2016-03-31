@@ -23,9 +23,18 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
+	var onChangeDevice = function (device) {
+		return $http.put(serviceBaseUri + 'api/devices/', device).then(function (result) {
+			return result;
+		});
+	}
+
+
+
 	devicesServiceFactory.getDevices = getDevices;
 	devicesServiceFactory.addNewDevice = addNewDevice;
 	devicesServiceFactory.onRemoveDevice = onRemoveDevice;
+	devicesServiceFactory.onChangeDevice = onChangeDevice;
 
 	return devicesServiceFactory;
 
