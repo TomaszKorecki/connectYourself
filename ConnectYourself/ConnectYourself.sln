@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connectYourselfAPI.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connectYourselfWeb", "connectYourselfWeb\connectYourselfWeb.csproj", "{E4156422-2684-4222-95C2-4B9AE4CBA7E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "connectYourselfSocket", "connectYourselfSocket\connectYourselfSocket.csproj", "{259AAE57-8505-4F25-A1EA-07B779F856AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{259AAE57-8505-4F25-A1EA-07B779F856AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{259AAE57-8505-4F25-A1EA-07B779F856AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{259AAE57-8505-4F25-A1EA-07B779F856AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{259AAE57-8505-4F25-A1EA-07B779F856AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,15 +32,34 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', 'to
 	$scope.onRemoveDevice = function (idx) {
 		var deviceToRemove = $scope.userDevices[idx];
 		console.log(deviceToRemove);
-		deviceService.onRemoveDevice(deviceToRemove);
-		$scope.userDevices.splice(idx, 1);
-		toaster.pop({ type: 'warning', body: "Removed successfully" });
+		toaster.pop({ type: 'wait', body: "Removing device", toastId: 3 });
+		deviceService.onRemoveDevice(deviceToRemove, function (result) {
+			$scope.userDevices.splice(idx, 1);
+			toaster.clear(null, 3);
+			toaster.pop({ type: 'success', body: "Removed successfully" });
+		}, function (error) {
+			toaster.clear(null, 3);
+			toaster.pop({ type: 'warning', body: "Removed fail"});
+		});
 	}
 
 	$scope.onChangeCacheData = function(idx) {
 		var deviceToChange = $scope.userDevices[idx];
 		deviceToChange.cacheData = !deviceToChange.cacheData;
-		deviceService.onChangeDevice(deviceToChange);
+		deviceService.onChangeDevice(deviceToChange).then(function(result) {
+			toaster.pop({ type: 'success', body: "Changed settings successfully"});
+		});
+	}
+
+	$scope.onReconnectDevice = function (idx) {
+		var deviceToReconnect = $scope.userDevices[idx];
+		toaster.pop({ type: 'wait', body: "Reconnecting device", toastId: 2, timeout: 10000 });
+
+		deviceService.onReconnectDevice(deviceToReconnect).then(function(result) {
+			
+
+			toaster.clear(null, 2);
+		});
 	}
 
 	deviceService.getDevices().then(function (result) {

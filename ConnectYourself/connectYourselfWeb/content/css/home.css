@@ -1,37 +1,50 @@
 ﻿.square {
-    float:left;
-    position: relative;
-    width: 20%;
-    padding-bottom : 20%; /* = width for a 1:1 aspect ratio */
-    margin:1.5%;
-    overflow:hidden;
+	float: left;
+	position: relative;
+	width: 20%;
+	padding-bottom: 20%; /* = width for a 1:1 aspect ratio */
+	margin: 1.5%;
+	overflow: hidden;
 }
 
 .content {
-    position:absolute;
-    height:90%; /* = 100% - 2*5% padding */
-    width:90%; /* = 100% - 2*5% padding */
-    padding: 5%;
+	position: absolute;
+	height: 90%; /* = 100% - 2*5% padding */
+	width: 90%; /* = 100% - 2*5% padding */
+	padding: 5%;
 }
 
-.content .rs{
-    width:auto;
-    height:auto;
-    max-height:90%;
-    max-width:100%;
-}
+	.content .rs {
+		width: auto;
+		height: auto;
+		max-height: 90%;
+		max-width: 100%;
+	}
+
+	.content .top-right {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	.content .bottom-right {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+
 
 .animate-show {
-    -webkit-transition: all linear 0.3s;
-    transition: all linear 0.3s;
-    opacity: 1;
+	-webkit-transition: all linear 0.3s;
+	transition: all linear 0.3s;
+	opacity: 1;
 }
 
-.animate-show.ng-hide-add,
-.animate-show.ng-hide-remove {
-    display: inline-block !important;
-}
-.animate-show.ng-hide {
-    opacity: 0;
-}
+	.animate-show.ng-hide-add,
+	.animate-show.ng-hide-remove {
+		display: inline-block !important;
+	}
 
+	.animate-show.ng-hide {
+		opacity: 0;
+	}

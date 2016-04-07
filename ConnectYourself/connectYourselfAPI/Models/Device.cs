@@ -13,5 +13,11 @@ namespace connectYourselfAPI.Models {
 		public string AppUserId { get; set; }
 		public string Name { get; set; }
 		public bool CacheData { get; set; }
+
+		[BsonRepresentation(BsonType.String)]
+		public DeviceConnectingMode ConnectingMode { get; set; }
+
+		[BsonRepresentation(BsonType.String)]
+		public DeviveConnectionState ConnectionState { get; set; }
 	}
 }

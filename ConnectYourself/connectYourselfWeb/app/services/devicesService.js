@@ -17,9 +17,11 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
-	var onRemoveDevice = function (device) {
-		return $http.delete(serviceBaseUri + 'api/devices/' + device.id).then(function (result) {
-			return result;
+	var onRemoveDevice = function (device, successCallback, errorCallback) {
+		$http.delete(serviceBaseUri + 'api/devices/' + device.id).then(function (result) {
+			successCallback(result);
+		}, function(error) {
+			errorCallback(error);
 		});
 	}
 
@@ -29,12 +31,17 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
-
+	var onReconnectDevice = function(device) {
+		return $http.post(serviceBaseUri + 'api/devices/reconnect', { deviceId: device.id }).then(function (results) {
+			return results;
+		});
+	}
 
 	devicesServiceFactory.getDevices = getDevices;
 	devicesServiceFactory.addNewDevice = addNewDevice;
 	devicesServiceFactory.onRemoveDevice = onRemoveDevice;
 	devicesServiceFactory.onChangeDevice = onChangeDevice;
+	devicesServiceFactory.onReconnectDevice = onReconnectDevice;
 
 	return devicesServiceFactory;
 

@@ -56,6 +56,7 @@ namespace connectYourselfAPI.Controllers
 		}
 
 		[Authorize]
+		[HttpDelete]
 		public IHttpActionResult Delete(string id) {
 			UserDeviceService userDeviceService = new UserDeviceService();
 
@@ -103,5 +104,13 @@ namespace connectYourselfAPI.Controllers
 				return InternalServerError(e);
 			}
 		}
+
+		//api/devices/reconnect
+		//[Authorize]
+		//[HttpPost]
+		//[Route("{deviceId}")]
+		//public IHttpActionResult Reconnect(ReconnectDeviceViewModel device) {
+		//	return Ok();
+	 //   }
 	}
 }
