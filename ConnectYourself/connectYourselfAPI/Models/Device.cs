@@ -20,5 +20,6 @@ namespace connectYourselfAPI.Models {
 
 		public DateTime LastPing { get; set; }
 		public string ActualState { get; set; }
+		public string ConnectionId { get; set; }
 	}
 }

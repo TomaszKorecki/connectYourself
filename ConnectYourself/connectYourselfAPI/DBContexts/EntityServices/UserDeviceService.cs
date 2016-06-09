@@ -12,12 +12,16 @@ namespace connectYourselfAPI.DBContexts {
 			return MongoConnectionHandler.MongoCollection.Find(x => x.SecretKey == secretKey).FirstOrDefault();
 		}
 
+		public Device GetByConnectionId(string connectionString) {
+			return MongoConnectionHandler.MongoCollection.Find(x => x.ConnectionId == connectionString).FirstOrDefault();
+		}
+
 		public List<Device> GetAllUserDevices(string userId) {
 			return Collection.AsQueryable().Where(x => x.AppUserId == userId).ToList();
 		}
 
-		public bool UpdateDeviceState(string deviceId, string deviceState) {
-			var device = GetById(deviceId);
+		public bool UpdateDeviceState(string secretKey, string deviceState) {
+			var device = GetBySecretKey(secretKey);
 
 			if (device != null) {
 				device.ActualState = deviceState;
@@ -27,8 +31,8 @@ namespace connectYourselfAPI.DBContexts {
 			return false;
 		}
 
-		public bool UpdateDeviceConnectionState(string deviceId, DeviveConnectionState deviveConnectionState) {
-			var device = GetById(deviceId);
+		public bool UpdateDeviceConnectionState(string secretKey, DeviveConnectionState deviveConnectionState) {
+			var device = GetBySecretKey(secretKey);
 
 			if (device != null) {
 				device.ConnectionState = deviveConnectionState;
@@ -38,8 +42,8 @@ namespace connectYourselfAPI.DBContexts {
 			return false;
 		}
 
-		public bool UpdateDeviceLastPing(string deviceId, DateTime lastPing) {
-			var device = GetById(deviceId);
+		public bool UpdateDeviceLastPing(string secretKey, DateTime lastPing) {
+			var device = GetBySecretKey(secretKey);
 
 			if (device != null) {
 				device.LastPing = lastPing;
