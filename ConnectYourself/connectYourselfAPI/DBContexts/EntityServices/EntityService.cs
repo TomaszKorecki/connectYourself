@@ -31,11 +31,12 @@ namespace connectYourselfAPI.DBContexts {
 		}
 
 		public virtual bool Update(T entity) {
-			//MongoConnectionHandler.MongoCollection.FindOneAndUpdate(x => x.Id == entity.Id, new JsonUpdateDefinition<T>(JsonConvert.SerializeObject(entity)))
-			//MongoConnectionHandler.MongoCollection.UpdateOne(x => x.Id == entity.Id, new ObjectUpdateDefinition<T>(entity), new UpdateOptions() {
+			//MongoConnectionHandler.MongoCollection.FindOneAndUpdate(x => x.Id == entity.Id, new JsonUpdateDefinition<T>(JsonConvert.SerializeObject(entity)));
+			//var result = MongoConnectionHandler.MongoCollection.UpdateOne(x => x.Id == entity.Id, new ObjectUpdateDefinition<T>(entity), new UpdateOptions {
 			//	IsUpsert = true
 			//});
 
+			//return result.IsAcknowledged;
 			var result = MongoConnectionHandler.MongoCollection.ReplaceOne(x => x.Id == entity.Id, entity);
 			return result.IsAcknowledged;
 		}

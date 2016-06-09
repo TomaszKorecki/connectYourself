@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using connectYourselfAPI.AuthProviders;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
@@ -17,6 +18,8 @@ namespace connectYourselfAPI.App_Start {
 			//For allowing getting token from another apps
 			app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 			app.UseWebApi(config);
+
+			app.MapSignalR("/signalR", new HubConfiguration());
 		}
 
 		public void ConfigureOAuth(IAppBuilder app) {

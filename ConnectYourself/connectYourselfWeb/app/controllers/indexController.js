@@ -7,5 +7,4 @@ app.controller('indexController', ['$scope', '$location', 'authService', functio
     }
 
     $scope.authentication = authService.authentication;
-
 }]);

@@ -58,18 +58,18 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\controllers\deviceController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
-    <Content Include="app\controllers\ordersController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\devicesService.js" />
     <Content Include="app\services\ordersService.js" />
+    <Content Include="app\views\deviceDetailView.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
-    <Content Include="app\views\orders.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="authComplete.html" />
     <Content Include="content\css\font-awesome.min.css" />

@@ -5,6 +5,14 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 
 	var devicesServiceFactory = {};
 
+	var getDevice =  function(deviceId, successCallback, errorCallback) {
+		return $http.get(serviceBaseUri + 'api/devices/' + deviceId).then(function(result) {
+			successCallback(result);
+		}, function(error) {
+			errorCallback(error);
+		});
+	}
+
 	var getDevices = function () {
 		return $http.get(serviceBaseUri + 'api/devices').then(function (results) {
 			return results;
@@ -37,6 +45,7 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
+	devicesServiceFactory.getDevice = getDevice;
 	devicesServiceFactory.getDevices = getDevices;
 	devicesServiceFactory.addNewDevice = addNewDevice;
 	devicesServiceFactory.onRemoveDevice = onRemoveDevice;

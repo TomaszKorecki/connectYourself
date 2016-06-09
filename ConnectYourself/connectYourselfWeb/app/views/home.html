@@ -8,20 +8,23 @@
 	</div>
 
 	<div ng-repeat="device in userDevices" class="square thumbnail" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-		<div class="content">
-			<button ng-show="hoverEdit" class="btn btn-danger btn-xs pull-right animate-show" ng-click="onRemoveDevice($index)">
-				<span  class="glyphicon glyphicon-remove "></span>
-			</button>
+		<div class="content btn btn-secondary" ng-click="onDeviceInfo($index)">
 
-			<button ng-show="hoverEdit" class="btn btn-info btn-xs pull-right animate-show" ng-click="onChangeCacheData($index)">
-				<span ng-if="device.cacheData == true" class="glyphicon glyphicon-floppy-saved"></span>
-				<span ng-if="device.cacheData == false" class="glyphicon glyphicon-floppy-remove"></span>
-			</button>
+			<div class="bottom-right"> 
+				<button ng-show="hoverEdit" class="btn btn-danger btn-xs pull-right animate-show" ng-click="onDeviceRemove($index)">
+					<span class="glyphicon glyphicon-remove "></span>
+				</button>
 
-			<button ng-show="hoverEdit" class="btn btn-primary btn-xs pull-right animate-show" ng-click="onReconnectDevice($index)">
-				<span class="glyphicon glyphicon-refresh "></span>
-			</button>
-			{{device.name}}
+				<button ng-show="hoverEdit" class="btn btn-info btn-xs pull-right animate-show" ng-click="onDeviceChangeCacheDataMode($index)">
+					<span ng-if="device.cacheData == true" class="glyphicon glyphicon-floppy-saved"></span>
+					<span ng-if="device.cacheData == false" class="glyphicon glyphicon-floppy-remove"></span>
+				</button>
+
+				<button ng-show="hoverEdit" class="btn btn-primary btn-xs pull-right animate-show" ng-click="onDeviceReconnect($index)">
+					<span class="glyphicon glyphicon-refresh "></span>
+				</button>
+			</div>
+			<h5>{{device.name}}</h5>
 		</div>
 	</div>
 

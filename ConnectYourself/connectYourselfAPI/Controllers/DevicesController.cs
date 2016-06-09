@@ -23,6 +23,26 @@ namespace connectYourselfAPI.Controllers
 			return Ok(userDeviceService.GetAllUserDevices(userId));
         }
 
+		//api/devices/deviceId
+		[Authorize]
+		[Route("{deviceId}")]
+		public IHttpActionResult GetDeviceDetails(string deviceId) {
+			var userId = User.Identity.GetUserId();
+			UserDeviceService userDeviceService = new UserDeviceService();
+
+			Device device = userDeviceService.GetById(deviceId);
+
+			if (device != null) {
+				if (device.AppUserId == userId) {
+					return Ok(device);
+				} else {
+					return BadRequest("Device does not available");
+				}
+			} else {
+				return BadRequest("Device does not exist");
+			}
+		}
+
 		[Authorize]
 		[HttpPost]
 		[Route]
@@ -42,7 +62,8 @@ namespace connectYourselfAPI.Controllers
 				Id = ObjectId.GenerateNewId().ToString(),
 				AppUserId = userId,
 				CacheData = addNewDeviceViewModel.CacheData.GetValueOrDefault(),
-				Name = addNewDeviceViewModel.Name
+				Name = addNewDeviceViewModel.Name,
+				SecretKey = Guid.NewGuid().ToString("n")
 			};
 
 			try {
@@ -105,12 +126,6 @@ namespace connectYourselfAPI.Controllers
 			}
 		}
 
-		//api/devices/reconnect
-		//[Authorize]
-		//[HttpPost]
-		//[Route("{deviceId}")]
-		//public IHttpActionResult Reconnect(ReconnectDeviceViewModel device) {
-		//	return Ok();
-	 //   }
+	
 	}
 }

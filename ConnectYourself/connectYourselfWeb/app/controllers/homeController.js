@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('homeController', ['$scope', 'authService', 'devicesService', 'toaster', function ($scope, authService, deviceService, toaster) {
+app.controller('homeController', ['$scope', '$location', 'authService', 'devicesService', 'toaster', function ($scope, $location, authService, deviceService, toaster) {
 	$scope.authentication = authService.authentication;
 
 	$scope.pop = function () {
@@ -29,7 +29,7 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', 'to
 		});
 	}
 
-	$scope.onRemoveDevice = function (idx) {
+	$scope.onDeviceRemove = function (idx) {
 		var deviceToRemove = $scope.userDevices[idx];
 		console.log(deviceToRemove);
 		toaster.pop({ type: 'wait', body: "Removing device", toastId: 3 });
@@ -43,7 +43,7 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', 'to
 		});
 	}
 
-	$scope.onChangeCacheData = function(idx) {
+	$scope.onDeviceChangeCacheDataMode = function (idx) {
 		var deviceToChange = $scope.userDevices[idx];
 		deviceToChange.cacheData = !deviceToChange.cacheData;
 		deviceService.onChangeDevice(deviceToChange).then(function(result) {
@@ -51,16 +51,22 @@ app.controller('homeController', ['$scope', 'authService', 'devicesService', 'to
 		});
 	}
 
-	$scope.onReconnectDevice = function (idx) {
+	$scope.onDeviceReconnect = function (idx) {
 		var deviceToReconnect = $scope.userDevices[idx];
 		toaster.pop({ type: 'wait', body: "Reconnecting device", toastId: 2, timeout: 10000 });
 
 		deviceService.onReconnectDevice(deviceToReconnect).then(function(result) {
 			
-
 			toaster.clear(null, 2);
 		});
 	}
+
+	$scope.onDeviceInfo = function (idx) {
+		var device = $scope.userDevices[idx];
+		$location.path('/device/' + device.id);
+	}
+
+	//---------------- Controller logic ---------------------
 
 	deviceService.getDevices().then(function (result) {
 		$scope.userDevices = result.data;

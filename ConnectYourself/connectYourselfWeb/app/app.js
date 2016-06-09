@@ -8,6 +8,11 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/home.html"
     });
 
+    $routeProvider.when("/device/:device_id", {
+    	controller: "deviceController",
+    	templateUrl: "/app/views/deviceDetailView.html"
+    });
+
     $routeProvider.when("/login", {
         controller: "loginController",
         templateUrl: "/app/views/login.html"
@@ -23,6 +28,7 @@ app.config(function ($routeProvider) {
 
 var serviceBase = 'http://localhost:55932/';
 app.constant('ngAuthSettings', {
+
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
