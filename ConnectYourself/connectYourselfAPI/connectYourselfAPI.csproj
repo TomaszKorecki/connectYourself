@@ -216,11 +216,6 @@
     <Compile Include="Models\DeviceConnectingMode.cs" />
     <Compile Include="Models\DeviveConnectionState.cs" />
     <Compile Include="Models\DeviceMessage.cs" />
-    <Compile Include="Models\SignalRModels\ConnectDeviceData.cs" />
-    <Compile Include="Models\SignalRModels\DevicePing.cs" />
-    <Compile Include="Models\SignalRModels\DisconnectDeviceData.cs" />
-    <Compile Include="Models\SignalRModels\SendDeviceDataData.cs" />
-    <Compile Include="Models\SignalRModels\SetDeviceStateData.cs" />
     <Compile Include="Models\ViewModels\AddNewDeviceViewModel.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\Device.cs" />
@@ -243,6 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\connectYourselfLib\connectYourselfLib.csproj">
+      <Project>{8f48f91d-8315-4ef1-a1fd-611e6b95bb2f}</Project>
+      <Name>connectYourselfLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

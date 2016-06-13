@@ -34,6 +34,9 @@ namespace connectYourselfAPI.Controllers
 
 			if (device != null) {
 				if (device.AppUserId == userId) {
+
+
+
 					return Ok(device);
 				} else {
 					return BadRequest("Device does not available");

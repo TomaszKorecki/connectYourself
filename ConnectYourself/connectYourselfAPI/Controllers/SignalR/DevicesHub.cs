@@ -6,7 +6,7 @@ using System.Web;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.DBContexts.EntityServices;
 using connectYourselfAPI.Models;
-using connectYourselfAPI.Models.SignalRModels;
+using connectYourselfLib.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Messaging;
@@ -41,8 +41,7 @@ namespace connectYourselfAPI.Controllers.SignalR {
 			UserDeviceService.UpdateDeviceState(setDeviceStateData.SecretKey, setDeviceStateData.DeviceState);
 		}
 
-		public void SendDeviceData(SendDeviceDataData sendDeviceData) {
-
+		public void SendDeviceData(SendDeviceData sendDeviceData) {
 			var device = UserDeviceService.GetBySecretKey(sendDeviceData.SecretKey);
 			if (device != null) {
 				DeviceMessageService deviceMessageService = new DeviceMessageService();
