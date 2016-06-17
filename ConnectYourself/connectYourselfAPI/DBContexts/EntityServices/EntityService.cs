@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using connectYourselfAPI.Models;
-using MongoDB.Bson.IO;
+﻿using connectYourselfAPI.Models;
 using MongoDB.Driver;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 
-namespace connectYourselfAPI.DBContexts {
-	public abstract class EntityService<T> : IEntityService<T> where T : IMongoEntity {
+namespace connectYourselfAPI.DBContexts.EntityServices {
+	public class EntityService<T> : IEntityService<T> where T : IMongoEntity {
 
 		protected readonly MongoConnectionHandler<T> MongoConnectionHandler;
 
-		protected EntityService() {
+		public EntityService() {
 			MongoConnectionHandler = new MongoConnectionHandler<T>();
 		}
 

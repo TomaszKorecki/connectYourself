@@ -45,12 +45,38 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
+	var getDeviceStatesHistory = function(deviceId, successCallback, errorCallback) {
+		return $http.get(serviceBaseUri + 'api/devices/getDeviceStatesHistory/' + deviceId).then(function (results) {
+			successCallback(results);
+		}, function(error) {
+			errorCallback(error);
+		});
+	}
+
+	var getDeviceHistoricalMessages = function (deviceId, successCallback, errorCallback) {
+		return $http.get(serviceBaseUri + 'api/devices/getDeviceStatesHistory/' + deviceId).then(function (results) {
+			successCallback(results);
+		}, function (error) {
+			errorCallback(error);
+		});
+	}
+
+	var getDeviceMessagesHistory = function (deviceId, successCallback, errorCallback) {
+		return $http.get(serviceBaseUri + 'api/devices/getDeviceMessagesHistory/' + deviceId).then(function (results) {
+			successCallback(results);
+		}, function (error) {
+			errorCallback(error);
+		});
+	}
+
 	devicesServiceFactory.getDevice = getDevice;
 	devicesServiceFactory.getDevices = getDevices;
 	devicesServiceFactory.addNewDevice = addNewDevice;
 	devicesServiceFactory.onRemoveDevice = onRemoveDevice;
 	devicesServiceFactory.onChangeDevice = onChangeDevice;
 	devicesServiceFactory.onReconnectDevice = onReconnectDevice;
+	devicesServiceFactory.getDeviceStatesHistory = getDeviceStatesHistory;
+	devicesServiceFactory.getDeviceMessagesHistory = getDeviceMessagesHistory;
 
 	return devicesServiceFactory;
 

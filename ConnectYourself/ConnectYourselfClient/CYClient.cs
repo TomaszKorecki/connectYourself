@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +16,15 @@ namespace ConnectYourselfClient
 	    private const string ServerUrlConfigName = "ConnectYourselfServerUrl";
 	    private const string ServerHubName = "DevicesHub";
 	    private const string ConnectMethod = "ConnectDevice";
+	    private const string SendMessageMethod = "SendDeviceData";
 		private string ServerUrl { get; }
 
+		private IHubProxy HubProxy { get; set; }
 
 		public string DeviceName { get; }
 		public string SecretKey { get; }
 
+		
 	    public CYClient(string deviceName, string secretKey, string serverUrl = null) {
 		    if (IsNullOrEmpty(serverUrl)) {
 			    ServerUrl = ConfigurationManager.AppSettings[ServerUrlConfigName];
@@ -37,17 +42,22 @@ namespace ConnectYourselfClient
 	    }
 
 	    public async Task ConnectToServer() {
-			//stockTickerHubProxy.On<Stock>("UpdateStockPrice", stock => Console.WriteLine("Stock update for {0} new price {1}", stock.Symbol, stock.Price));
 			var hubConnection = new HubConnection(ServerUrl);
-			IHubProxy devicesHub = hubConnection.CreateHubProxy(ServerHubName);
+			HubProxy = hubConnection.CreateHubProxy(ServerHubName);
 			await hubConnection.Start();
 
-			await devicesHub.Invoke(ConnectMethod, new ConnectDeviceData() {
+			await HubProxy.Invoke(ConnectMethod, new ConnectDeviceData() {
 				DeviceName = DeviceName,
 				SecretKey = SecretKey
 			});
 		}
 
-
+	    public async Task SendMessageToServer(string message) {
+			await HubProxy.Invoke(SendMessageMethod, new SendDeviceData() {
+				DeviceName = DeviceName,
+				SecretKey = SecretKey,
+				Data = message
+			});
+		}
     }
 }

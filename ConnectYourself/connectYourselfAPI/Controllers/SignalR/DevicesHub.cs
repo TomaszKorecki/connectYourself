@@ -6,6 +6,7 @@ using System.Web;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.DBContexts.EntityServices;
 using connectYourselfAPI.Models;
+using connectYourselfAPI.Models.DBModels;
 using connectYourselfLib.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -34,11 +35,23 @@ namespace connectYourselfAPI.Controllers.SignalR {
 			if (device != null) {
 				device.ConnectionState = DeviveConnectionState.NotConnected;
 				device.ConnectionId = string.Empty;
+
+				UserDeviceService.Update(device);
 			}
 		}
 
 		public void SetDeviceState(SetDeviceStateData setDeviceStateData) {
-			UserDeviceService.UpdateDeviceState(setDeviceStateData.SecretKey, setDeviceStateData.DeviceState);
+			var device = UserDeviceService.GetBySecretKey(setDeviceStateData.SecretKey);
+
+			DeviceHistoricalState deviceHistoricalState = new DeviceHistoricalState() {
+				State = device.ActualState,
+				StateTransitionDateTime = DateTime.Now
+			};
+
+			if (UserDeviceService.UpdateDeviceState(device, setDeviceStateData.DeviceState)) {
+				var historialStateES = new EntityService<DeviceHistoricalState>();
+				historialStateES.Create(deviceHistoricalState);
+			}
 		}
 
 		public void SendDeviceData(SendDeviceData sendDeviceData) {
@@ -48,11 +61,11 @@ namespace connectYourselfAPI.Controllers.SignalR {
 
 				var deviceMessage = new DeviceMessage() {
 					DeviceId = device.Id,
-					MessageContent = sendDeviceData.Data
+					MessageContent = sendDeviceData.Data,
+					MessageDateTime = DateTime.Now
 				};
 
-
-				deviceMessageService.Collection.InsertOne(deviceMessage);
+				deviceMessageService.Create(deviceMessage);
 			}
 		}
 

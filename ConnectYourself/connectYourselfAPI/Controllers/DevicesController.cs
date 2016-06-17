@@ -2,11 +2,15 @@
 using System.Net;
 using System.Web.Http;
 using connectYourselfAPI.DBContexts;
+using connectYourselfAPI.DBContexts.EntityServices;
 using connectYourselfAPI.Models;
+using connectYourselfAPI.Models.DBModels;
 using connectYourselfAPI.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace connectYourselfAPI.Controllers
 {
@@ -34,16 +38,75 @@ namespace connectYourselfAPI.Controllers
 
 			if (device != null) {
 				if (device.AppUserId == userId) {
+					DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel() {
+						ConnectionState = device.ConnectionState,
+						LastPing = device.LastPing,
+						Id = device.Id,
+						ActualState = device.ActualState,
+						Name = device.Name,
+						SecretKey = device.SecretKey
+					};
 
-
-
-					return Ok(device);
-				} else {
-					return BadRequest("Device does not available");
+					return Ok(deviceDetailsViewModel);
 				}
-			} else {
-				return BadRequest("Device does not exist");
+				return BadRequest("Device does not available");
 			}
+
+			return BadRequest("Device does not exist");
+		}
+
+		//api/devices/getDeviceStatesHistory
+		[Authorize]
+		[Route("getDeviceStatesHistory/{deviceId}")]
+		public IHttpActionResult GetDeviceStatesHistory(string deviceId, int startIndex = 0, int limit = 30) {
+			var userId = User.Identity.GetUserId();
+			UserDeviceService userDeviceService = new UserDeviceService();
+
+			Device device = userDeviceService.GetById(deviceId);
+
+			if (device != null) {
+				if (device.AppUserId == userId) {
+					var deviceStatesHistoryES = new EntityService<DeviceHistoricalState>();
+					var deviceStatesHistory = deviceStatesHistoryES.Collection.AsQueryable().
+						Where(x => x.DeviceId == deviceId).
+						OrderBy(x => x.StateTransitionDateTime).
+						Skip(startIndex).
+						Take(limit).
+						ToList();
+
+					return Ok(deviceStatesHistory);
+				}
+				return BadRequest("Device does not available");
+			}
+
+			return BadRequest("Device does not exist");
+		}
+
+		//api/devices/getDeviceMessagesHistory
+		[Authorize]
+		[Route("getDeviceMessagesHistory/{deviceId}")]
+		public IHttpActionResult GetDeviceMessagesHistory(string deviceId, int startIndex = 0, int limit = 30) {
+			var userId = User.Identity.GetUserId();
+			UserDeviceService userDeviceService = new UserDeviceService();
+
+			Device device = userDeviceService.GetById(deviceId);
+
+			if (device != null) {
+				if (device.AppUserId == userId) {
+					var deviceMessageHistoryES = new EntityService<DeviceMessage>();
+					var deviceStatesHistory = deviceMessageHistoryES.Collection.AsQueryable().
+						Where(x => x.DeviceId == deviceId).
+						OrderBy(x => x.MessageDateTime).
+						Skip(startIndex).
+						Take(limit).
+						ToList();
+
+					return Ok(deviceStatesHistory);
+				}
+				return BadRequest("Device does not available");
+			}
+
+			return BadRequest("Device does not exist");
 		}
 
 		[Authorize]

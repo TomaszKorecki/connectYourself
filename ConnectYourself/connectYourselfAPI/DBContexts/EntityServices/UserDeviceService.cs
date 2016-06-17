@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using connectYourselfAPI.DBContexts.EntityServices;
 using connectYourselfAPI.Models;
+using connectYourselfAPI.Models.DBModels;
 using MongoDB.Driver;
 
 namespace connectYourselfAPI.DBContexts {
@@ -20,13 +22,13 @@ namespace connectYourselfAPI.DBContexts {
 			return Collection.AsQueryable().Where(x => x.AppUserId == userId).ToList();
 		}
 
-		public bool UpdateDeviceState(string secretKey, string deviceState) {
-			var device = GetBySecretKey(secretKey);
-
+		public bool UpdateDeviceState(Device device, string deviceState) {
 			if (device != null) {
-				device.ActualState = deviceState;
+				if (Update(device)) {
+					device.ActualState = deviceState;
 
-				return Update(device);
+					return Update(device);
+				}
 			}
 			return false;
 		}

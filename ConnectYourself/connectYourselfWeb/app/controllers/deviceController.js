@@ -7,6 +7,7 @@ app.controller('deviceController', ['$scope', '$routeParams', 'authService', 'de
 	};
 
 	var deviceId = $routeParams.device_id;
+	$scope.deviceStatesHistoryDownloaded = false;
 
 	//---------------- Controller logic ---------------------
 
@@ -16,4 +17,22 @@ app.controller('deviceController', ['$scope', '$routeParams', 'authService', 'de
 	}, function (error) {
 		alert(error.data.message);
 	});
+
+
+	deviceService.getDeviceStatesHistory(deviceId, function (result) {
+		$scope.deviceStatesHistory = result.data;
+		$scope.deviceStatesHistoryDownloaded = true;
+		console.log($scope.deviceStatesHistory);
+	}, function (error) {
+		toaster.pop({ type: 'error', body: "Unable to find the device history" });
+	});
+
+	deviceService.getDeviceMessagesHistory(deviceId, function (result) {
+		$scope.deviceMessagesHistory = result.data;
+		$scope.deviceMessagesHistory = true;
+		console.log($scope.deviceMessagesHistory);
+	}, function (error) {
+		toaster.pop({ type: 'error', body: "Unable to find the device history" });
+	});
+	
 }]);

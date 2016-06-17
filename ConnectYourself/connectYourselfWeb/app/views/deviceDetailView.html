@@ -11,8 +11,22 @@
 
 		<h4>Secret key: {{device.secretKey}}</h4>
 		<h4>Connection state: {{device.connectionState}}</h4>
-		<h4>Actual state device: {{device.actualState}}</h4>
-		<h3>States history:</h3>
-		<h3>Data history:</h3>	
+		<h4>Actual device state: {{device.actualState ? device.actualState : 'Empty'}}</h4>
+		<h4>Last ping: {{device.lastPing}}</h4>
+		<hr />
+
+		<div class="row"></div>
+		<div class="col-sm-6">
+			<h3>States history:</h3>
+
+		</div>
+
+		<div class="col-sm-6">
+			<h3>Data history:</h3>
+
+
+		</div>
+
+
 	</div>
 </div>
