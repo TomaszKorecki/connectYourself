@@ -1,0 +1,47 @@
+﻿
+
+<div data-ng-hide="!authentication.isAuth">
+
+	<div class="container">
+		<div class="page-header text-center">
+			<h1>Notifications</h1>
+		</div>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Source device</th>
+					<th>Source message</th>
+					<th>Target device</th>
+					<th>Target message</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="rule in notificationRules">
+					<td>{{rule.sourceDeviceName}}</td>
+					<td>{{rule.sourceMessage}}</td>
+					<td>{{rule.targetDeviceName}}</td>
+					<td>{{rule.targetMessage}}</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" class="form-control" placeholder="Source device..." data-ng-model="addNewNotificationRule.sourceDeviceName" required autofocus>
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="Source msg..." data-ng-model="addNewNotificationRule.sourceMessage" required autofocus>
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="Target device..." data-ng-model="addNewNotificationRule.targetDeviceName" required autofocus>
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="Target msg..." data-ng-model="addNewNotificationRule.targetMessage" required autofocus>
+					</td>
+					<td>
+						<button class="btn btn-info" type="submit" data-ng-click="onAddNewNotificationRule()">Add</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

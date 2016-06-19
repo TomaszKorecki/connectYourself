@@ -22,9 +22,9 @@
 				<form>
 					<div class="form-group">
 						<h4 class="form-login-heading">Set device state:</h4>
-						<input type="text" class="form-control" placeholder="State..." data-ng-model="messageToDevice.message" required autofocus>
+						<input type="text" class="form-control" placeholder="State..." data-ng-model="setDeviceState.deviceState" required autofocus>
 					</div>
-					<button class="btn btn-info" type="submit" ng-click="login()">Set</button>
+					<button class="btn btn-info" type="submit" data-ng-click="onSetDeviceState()">Set</button>
 				</form>
 			</div>
 

@@ -3,12 +3,6 @@ app.controller('homeController', ['$scope', '$location', 'authService', 'devices
 	function ($scope, $location, authService, deviceService, toaster, signalRService) {
 		$scope.authentication = authService.authentication;
 
-		var userEventsHub = signalRService('UsersHub', function() {
-			userEventsHub.invoke("RegisterUser", authService.authentication.userName);
-		});
-
-		
-
 		$scope.pop = function () {
 			toaster.pop('success', "title", "text");
 		};

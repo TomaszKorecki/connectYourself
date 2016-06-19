@@ -6,6 +6,7 @@ using System.Web;
 using connectYourselfAPI.App_Start;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.EventsControllers;
+using connectYourselfAPI.EventsControllers.Models;
 using Microsoft.AspNet.SignalR;
 using Ninject;
 

@@ -15,7 +15,6 @@ namespace connectYourselfAPI.EventsControllers {
 
 		public static void OnUserDeviceStateChanged(DeviceStateChangedEvent deviceStateChangedEvent) {
 			var context = GlobalHost.ConnectionManager.GetHubContext<UsersHub>();
-			//context.Clients.All.Send("Admin", "stop the chat");
 
 			if (UsersConnections.ContainsKey(deviceStateChangedEvent.AppUserId)) {
 				
@@ -24,10 +23,32 @@ namespace connectYourselfAPI.EventsControllers {
 
 				if (device != null) {
 					var connection = UsersConnections[deviceStateChangedEvent.AppUserId];
-					context.Clients.Client(connection.ConnectionId).NotifyAboutDeviceStateChange(new DeviceStateChangedNotification() {
+
+					context.Clients.Client(connection.ConnectionId).notifyAboutDeviceStateChange(new DeviceStateChangedNotification() {
 						DateTime = deviceStateChangedEvent.DateTime,
 						State = deviceStateChangedEvent.State,
-						DeviceName = device.Name
+						DeviceName = device.Name,
+						Id = device.Id
+					});
+				}
+			}
+		}
+
+		public static void OnUserDeviceMessageReceived(DeviceMessageEvent deviceStateChangedEvent) {
+			var context = GlobalHost.ConnectionManager.GetHubContext<UsersHub>();
+
+			if (UsersConnections.ContainsKey(deviceStateChangedEvent.AppUserId)) {
+				UserDeviceService userDeviceService = new UserDeviceService();
+				var device = userDeviceService.GetById(deviceStateChangedEvent.DeviceId);
+
+				if (device != null) {
+					var connection = UsersConnections[deviceStateChangedEvent.AppUserId];
+
+					context.Clients.Client(connection.ConnectionId).notifyAboutDeviceMessageReceived(new DeviceMessageReceivedNotification() {
+						DateTime = deviceStateChangedEvent.DateTime,
+						Message = deviceStateChangedEvent.Message,
+						DeviceName = device.Name,
+						Id = device.Id
 					});
 				}
 			}

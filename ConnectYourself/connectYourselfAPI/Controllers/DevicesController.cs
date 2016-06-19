@@ -212,7 +212,7 @@ namespace connectYourselfAPI.Controllers
 
 			if (device != null) {
 				DeviceHistoricalState deviceHistoricalState = new DeviceHistoricalState() {
-					State = setDeviceStateData.DeviceState,
+					State = device.ActualState,
 					StateTransitionDateTime = DateTime.Now,
 					DeviceId = device.Id
 				};
@@ -227,7 +227,7 @@ namespace connectYourselfAPI.Controllers
 					deviceEventsContainer.RegisterDeviceStateChangeEvent(new DeviceStateChangedEvent {
 						DeviceId = device.Id,
 						DateTime = deviceHistoricalState.StateTransitionDateTime,
-						State = deviceHistoricalState.State,
+						State = setDeviceStateData.DeviceState,
 						AppUserId = device.AppUserId
 					});
 

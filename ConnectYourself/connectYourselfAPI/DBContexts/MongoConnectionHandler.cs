@@ -11,7 +11,7 @@ namespace connectYourselfAPI.DBContexts {
 
 		public IMongoCollection<T> MongoCollection { get; private set; }
 
-		public MongoConnectionHandler() {
+		public MongoConnectionHandler()		{
 			var mongoURL = ConfigurationManager.AppSettings["MongoDBConnectionURL"];
 			var mongoDBName = ConfigurationManager.AppSettings["MongoDBDatabaseName"];
 

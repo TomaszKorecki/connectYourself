@@ -53,16 +53,16 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 		});
 	}
 
-	var getDeviceHistoricalMessages = function (deviceId, successCallback, errorCallback) {
-		return $http.get(serviceBaseUri + 'api/devices/getDeviceStatesHistory/' + deviceId).then(function (results) {
+	var getDeviceMessagesHistory = function (deviceId, successCallback, errorCallback) {
+		return $http.get(serviceBaseUri + 'api/devices/getDeviceMessagesHistory/' + deviceId).then(function (results) {
 			successCallback(results);
 		}, function (error) {
 			errorCallback(error);
 		});
 	}
 
-	var getDeviceMessagesHistory = function (deviceId, successCallback, errorCallback) {
-		return $http.get(serviceBaseUri + 'api/devices/getDeviceMessagesHistory/' + deviceId).then(function (results) {
+	var setDeviceState = function (deviceState, successCallback, errorCallback) {
+		return $http.post(serviceBaseUri + 'api/devices/setDeviceState', deviceState).then(function (results) {
 			successCallback(results);
 		}, function (error) {
 			errorCallback(error);
@@ -77,7 +77,7 @@ app.factory('devicesService', ['$http', 'ngAuthSettings', function ($http, ngAut
 	devicesServiceFactory.onReconnectDevice = onReconnectDevice;
 	devicesServiceFactory.getDeviceStatesHistory = getDeviceStatesHistory;
 	devicesServiceFactory.getDeviceMessagesHistory = getDeviceMessagesHistory;
+	devicesServiceFactory.setDeviceState = setDeviceState;
 
 	return devicesServiceFactory;
-
 }]);

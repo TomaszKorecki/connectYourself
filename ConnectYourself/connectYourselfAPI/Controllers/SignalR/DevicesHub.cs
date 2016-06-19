@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using connectYourselfAPI.App_Start;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.DBContexts.EntityServices;
+using connectYourselfAPI.EventsControllers;
+using connectYourselfAPI.EventsControllers.Models;
 using connectYourselfAPI.Models;
 using connectYourselfAPI.Models.DBModels;
 using connectYourselfLib.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Messaging;
+using Ninject;
 
 namespace connectYourselfAPI.Controllers.SignalR {
 	public class DevicesHub : Hub {
@@ -50,16 +54,30 @@ namespace connectYourselfAPI.Controllers.SignalR {
 					DeviceId = device.Id
 				};
 
+				UserDeviceService.SetupFreshLastPing(device);
 				if (UserDeviceService.UpdateDeviceState(device, setDeviceStateData.DeviceState)) {
 					var historialStateES = new EntityService<DeviceHistoricalState>();
 					historialStateES.Create(deviceHistoricalState);
 				}
+
+				IKernel kernel = new StandardKernel(new ConnectYourselfNinjectModule());
+				var deviceEventsContainer = kernel.Get<IDevicesEventsContainer>();
+
+				deviceEventsContainer.RegisterDeviceStateChangeEvent(new DeviceStateChangedEvent {
+					DeviceId = device.Id,
+					DateTime = deviceHistoricalState.StateTransitionDateTime,
+					State = setDeviceStateData.DeviceState,
+					AppUserId = device.AppUserId
+				});
 			}
 		}
 
 		public void SendDeviceData(SendDeviceData sendDeviceData) {
 			var device = UserDeviceService.GetBySecretKey(sendDeviceData.SecretKey);
 			if (device != null) {
+				UserDeviceService.SetupFreshLastPing(device);
+				UserDeviceService.Update(device);
+
 				DeviceMessageService deviceMessageService = new DeviceMessageService();
 
 				var deviceMessage = new DeviceMessage() {
@@ -69,6 +87,16 @@ namespace connectYourselfAPI.Controllers.SignalR {
 				};
 
 				deviceMessageService.Create(deviceMessage);
+
+				IKernel kernel = new StandardKernel(new ConnectYourselfNinjectModule());
+				var deviceEventsContainer = kernel.Get<IDevicesEventsContainer>();
+
+				deviceEventsContainer.RegisterDeviceMessageEvent(new DeviceMessageEvent() {
+					DeviceId = device.Id,
+					DateTime = deviceMessage.MessageDateTime,
+					Message = deviceMessage.MessageContent,
+					AppUserId = device.AppUserId
+				});
 			}
 		}
 

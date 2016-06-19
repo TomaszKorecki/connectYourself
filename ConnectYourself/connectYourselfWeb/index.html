@@ -25,7 +25,8 @@
 				<ul class="nav navbar-nav navbar-right">
 
 					<!--<li data-ng-hide="!authentication.isAuth"><a href="#/orders">My Orders</a></li>-->
-					<li data-ng-hide="!authentication.isAuth"><a href="#">My devices</a></li>
+					<li data-ng-hide="!authentication.isAuth"><a href="#">Devices</a></li>
+					<li data-ng-hide="!authentication.isAuth"><a href="#/notifications">Notification rules</a></li>
 					<li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()">Logout</a></li>
 					<li data-ng-hide="!authentication.isAuth"><a href="#">{{authentication.userName}}</a></li>
 
@@ -51,7 +52,7 @@
 			</div>
 		</div>
 	</div>
-<!-- 3rd party libraries -->
+	<!-- 3rd party libraries -->
 	<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	<script src="scripts/jquery.signalR.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
@@ -69,12 +70,14 @@
 	<script src="app/services/authService.js?v=2"></script>
 	<script src="app/services/devicesService.js?v=2"></script>
 	<script src="app/services/signalRService.js?v=2"></script>
+	<script src="app/services/notificationService.js?v=2"></script>
 	<!-- Load controllers -->
 	<script src="app/controllers/indexController.js?v=2"></script>
 	<script src="app/controllers/homeController.js?v=2"></script>
 	<script src="app/controllers/loginController.js?v=2"></script>
 	<script src="app/controllers/signupController.js?v=2"></script>
 	<script src="app/controllers/deviceController.js?v=2"></script>
+	<script src="app/controllers/notificationsController.js?v=2"></script>
 	<!-- Load custom filters -->
 	<!-- Load custom directives -->
 </body>

@@ -13,6 +13,11 @@ app.config(function ($routeProvider) {
     	templateUrl: "/app/views/deviceDetailView.html"
     });
 
+    $routeProvider.when("/notifications/", {
+    	controller: "notificationsController",
+    	templateUrl: "/app/views/notificationsView.html"
+    });
+
     $routeProvider.when("/login", {
         controller: "loginController",
         templateUrl: "/app/views/login.html"
@@ -39,7 +44,10 @@ app.config(function ($httpProvider) {
 });
 
 app.run(['authService', function (authService) {
-    authService.fillAuthData();
-}]);
+	authService.fillAuthData();
 
+	//signalRService.connect('UsersHub', function () {
+	//	signalRService.invoke("RegisterUser", authService.authentication.userName);
+	//});
+}]);
 

@@ -23,10 +23,9 @@ namespace connectYourselfAPI.App_Start {
 
 			app.MapSignalR("/signalR", new HubConfiguration());
 
-			IKernel kernel = new StandardKernel(new ConnectYourselfNinjectModule());
-
-			var devicesEventsContainer = kernel.Get<IDevicesEventsContainer>();
-			devicesEventsContainer.SubscribeToDeviceStateChangedEvent(UsersNotifier.OnUserDeviceStateChanged);
+			//IKernel kernel = new StandardKernel(new ConnectYourselfNinjectModule());
+			//var devicesEventsContainer = kernel.Get<IDevicesEventsContainer>();
+			//devicesEventsContainer.SubscribeToDeviceStateChangedEvent(UsersNotifier.OnUserDeviceStateChanged);
 		}
 
 		public void ConfigureOAuth(IAppBuilder app) {
