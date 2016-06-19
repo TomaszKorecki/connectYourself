@@ -2,6 +2,8 @@
 app.controller('deviceController', ['$scope', '$routeParams', 'authService', 'devicesService', 'toaster', function ($scope, $routeParams, authService, deviceService, toaster) {
 	$scope.authentication = authService.authentication;
 
+	$scope.messageToDevice = null;
+
 	$scope.pop = function () {
 		toaster.pop('success', "title", "text");
 	};
@@ -24,15 +26,15 @@ app.controller('deviceController', ['$scope', '$routeParams', 'authService', 'de
 		$scope.deviceStatesHistoryDownloaded = true;
 		console.log($scope.deviceStatesHistory);
 	}, function (error) {
-		toaster.pop({ type: 'error', body: "Unable to find the device history" });
+		toaster.pop({ type: 'error', body: "Unable to find the device states history" });
 	});
 
 	deviceService.getDeviceMessagesHistory(deviceId, function (result) {
 		$scope.deviceMessagesHistory = result.data;
-		$scope.deviceMessagesHistory = true;
+		$scope.deviceMessagesHistoryDownloaded = true;
 		console.log($scope.deviceMessagesHistory);
 	}, function (error) {
-		toaster.pop({ type: 'error', body: "Unable to find the device history" });
+		toaster.pop({ type: 'error', body: "Unable to find the device messages history" });
 	});
 	
 }]);

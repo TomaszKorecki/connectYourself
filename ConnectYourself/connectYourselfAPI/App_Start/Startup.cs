@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Web.Http;
 using connectYourselfAPI.AuthProviders;
+using connectYourselfAPI.EventsControllers;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
+using Ninject;
 using Owin;
 
 [assembly: OwinStartup(typeof(connectYourselfAPI.App_Start.Startup))]
@@ -20,6 +22,11 @@ namespace connectYourselfAPI.App_Start {
 			app.UseWebApi(config);
 
 			app.MapSignalR("/signalR", new HubConfiguration());
+
+			IKernel kernel = new StandardKernel(new ConnectYourselfNinjectModule());
+
+			var devicesEventsContainer = kernel.Get<IDevicesEventsContainer>();
+			devicesEventsContainer.SubscribeToDeviceStateChangedEvent(UsersNotifier.OnUserDeviceStateChanged);
 		}
 
 		public void ConfigureOAuth(IAppBuilder app) {

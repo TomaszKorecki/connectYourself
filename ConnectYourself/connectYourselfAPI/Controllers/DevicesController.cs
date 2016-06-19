@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using connectYourselfAPI.App_Start;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.DBContexts.EntityServices;
+using connectYourselfAPI.EventsControllers;
+using connectYourselfAPI.EventsControllers.Models;
 using connectYourselfAPI.Models;
 using connectYourselfAPI.Models.DBModels;
 using connectYourselfAPI.Models.ViewModels;
+using connectYourselfLib.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Ninject;
 
 namespace connectYourselfAPI.Controllers
 {
@@ -69,7 +74,7 @@ namespace connectYourselfAPI.Controllers
 					var deviceStatesHistoryES = new EntityService<DeviceHistoricalState>();
 					var deviceStatesHistory = deviceStatesHistoryES.Collection.AsQueryable().
 						Where(x => x.DeviceId == deviceId).
-						OrderBy(x => x.StateTransitionDateTime).
+						OrderByDescending(x => x.StateTransitionDateTime).
 						Skip(startIndex).
 						Take(limit).
 						ToList();
@@ -96,7 +101,7 @@ namespace connectYourselfAPI.Controllers
 					var deviceMessageHistoryES = new EntityService<DeviceMessage>();
 					var deviceStatesHistory = deviceMessageHistoryES.Collection.AsQueryable().
 						Where(x => x.DeviceId == deviceId).
-						OrderBy(x => x.MessageDateTime).
+						OrderByDescending(x => x.MessageDateTime).
 						Skip(startIndex).
 						Take(limit).
 						ToList();
@@ -125,7 +130,6 @@ namespace connectYourselfAPI.Controllers
 			}
 
 			Device device = new Device() {
-				Id = ObjectId.GenerateNewId().ToString(),
 				AppUserId = userId,
 				CacheData = addNewDeviceViewModel.CacheData.GetValueOrDefault(),
 				Name = addNewDeviceViewModel.Name,
@@ -144,6 +148,7 @@ namespace connectYourselfAPI.Controllers
 
 		[Authorize]
 		[HttpDelete]
+		[Route("{id}")]
 		public IHttpActionResult Delete(string id) {
 			UserDeviceService userDeviceService = new UserDeviceService();
 
@@ -192,6 +197,47 @@ namespace connectYourselfAPI.Controllers
 			}
 		}
 
-	
+		[Authorize]
+		[HttpPost]
+		[Route("setDeviceState")]
+		public IHttpActionResult SetDeviceState(SetDeviceStateData setDeviceStateData) {
+			var userId = User.Identity.GetUserId();
+			UserDeviceService userDeviceService = new UserDeviceService();
+
+			if (setDeviceStateData == null) {
+				return BadRequest("Input is null");
+			}
+
+			var device = userDeviceService.GetBySecretKey(setDeviceStateData.SecretKey);
+
+			if (device != null) {
+				DeviceHistoricalState deviceHistoricalState = new DeviceHistoricalState() {
+					State = setDeviceStateData.DeviceState,
+					StateTransitionDateTime = DateTime.Now,
+					DeviceId = device.Id
+				};
+
+				if (userDeviceService.UpdateDeviceState(device, setDeviceStateData.DeviceState)) {
+					var historialStateES = new EntityService<DeviceHistoricalState>();
+					historialStateES.Create(deviceHistoricalState);
+
+					IKernel kernel = new StandardKernel(new ConnectYourselfNinjectModule());
+					var deviceEventsContainer = kernel.Get<IDevicesEventsContainer>();
+
+					deviceEventsContainer.RegisterDeviceStateChangeEvent(new DeviceStateChangedEvent {
+						DeviceId = device.Id,
+						DateTime = deviceHistoricalState.StateTransitionDateTime,
+						State = deviceHistoricalState.State,
+						AppUserId = device.AppUserId
+					});
+
+					return Ok();
+				} else {
+					return BadRequest("Failed to update state device");
+				}
+			} else {
+				return BadRequest("Device does not exists");
+			}
+		}
 	}
 }

@@ -8,9 +8,9 @@
 	</div>
 
 	<div ng-repeat="device in userDevices" class="square thumbnail" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-		<div class="content btn btn-secondary" ng-click="onDeviceInfo($index)">
+		<div class="content btn btn-secondary">
 
-			<div class="bottom-right"> 
+			<div class="bottom-right">
 				<button ng-show="hoverEdit" class="btn btn-danger btn-xs pull-right animate-show" ng-click="onDeviceRemove($index)">
 					<span class="glyphicon glyphicon-remove "></span>
 				</button>
@@ -24,16 +24,12 @@
 					<span class="glyphicon glyphicon-refresh "></span>
 				</button>
 			</div>
-			<h5>{{device.name}}</h5>
+			<div ng-click="onDeviceInfo($index)">
+				<h5>{{device.name}}</h5>
+			</div>
+			
 		</div>
 	</div>
-
-	<!--<div class="square thumbnail">
-		<div class="content">
-			<img class="rs" src="https://farm3.staticflickr.com/2878/10944255073_973d2cd25c.jpg" />
-			Responsive image.
-		</div>
-	</div>-->
 
 	<div class="square  thumbnail">
 		<div class="content">

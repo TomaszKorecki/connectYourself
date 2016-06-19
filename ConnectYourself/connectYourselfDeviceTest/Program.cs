@@ -26,11 +26,22 @@ namespace connectYourselfDeviceTest {
 					while (true) {
 						var temperature = string.Format("Temperature: {0}", random.Next(35));
 						Console.WriteLine(temperature);
-						await connectYouselfClient.SendMessageToServer(temperature);
-
+						connectYouselfClient.SendMessageToServer(temperature);
 						await Task.Delay(random.Next(3000, 6000));
 					}
 				});
+
+
+				Task.Run(async () => {
+					while (true) {
+						var newState = random.Next(0, 2) > 0 ? "Turning ON" : "Turning OFF";
+						Console.WriteLine("Setting up new state: {0}", newState);
+						connectYouselfClient.SetNewState(newState);
+						Console.WriteLine("State set up properly");
+						await Task.Delay(random.Next(10000, 15000));
+					}
+				});
+
 			}
 			catch (Exception exception) {
 				Console.WriteLine("Problem occured duing connecting to server");

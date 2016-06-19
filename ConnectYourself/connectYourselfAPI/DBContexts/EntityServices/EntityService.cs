@@ -1,4 +1,5 @@
 ﻿using connectYourselfAPI.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace connectYourselfAPI.DBContexts.EntityServices {
@@ -13,6 +14,7 @@ namespace connectYourselfAPI.DBContexts.EntityServices {
 		public IMongoCollection<T> Collection => MongoConnectionHandler.MongoCollection;
 
 		public virtual void Create(T entity) {
+			entity.Id = ObjectId.GenerateNewId().ToString();
 			MongoConnectionHandler.MongoCollection.InsertOne(entity);
 		}
 

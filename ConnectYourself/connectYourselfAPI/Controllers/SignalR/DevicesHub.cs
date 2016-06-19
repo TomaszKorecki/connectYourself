@@ -43,14 +43,17 @@ namespace connectYourselfAPI.Controllers.SignalR {
 		public void SetDeviceState(SetDeviceStateData setDeviceStateData) {
 			var device = UserDeviceService.GetBySecretKey(setDeviceStateData.SecretKey);
 
-			DeviceHistoricalState deviceHistoricalState = new DeviceHistoricalState() {
-				State = device.ActualState,
-				StateTransitionDateTime = DateTime.Now
-			};
+			if (device != null) {
+				DeviceHistoricalState deviceHistoricalState = new DeviceHistoricalState() {
+					State = device.ActualState,
+					StateTransitionDateTime = DateTime.Now,
+					DeviceId = device.Id
+				};
 
-			if (UserDeviceService.UpdateDeviceState(device, setDeviceStateData.DeviceState)) {
-				var historialStateES = new EntityService<DeviceHistoricalState>();
-				historialStateES.Create(deviceHistoricalState);
+				if (UserDeviceService.UpdateDeviceState(device, setDeviceStateData.DeviceState)) {
+					var historialStateES = new EntityService<DeviceHistoricalState>();
+					historialStateES.Create(deviceHistoricalState);
+				}
 			}
 		}
 

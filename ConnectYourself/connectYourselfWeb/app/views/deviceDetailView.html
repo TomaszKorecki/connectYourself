@@ -5,28 +5,47 @@
 		<div class="page-header text-center">
 			<h1>{{device.name}}</h1>
 			<h2>details</h2>
-
-
 		</div>
 
-		<h4>Secret key: {{device.secretKey}}</h4>
-		<h4>Connection state: {{device.connectionState}}</h4>
-		<h4>Actual device state: {{device.actualState ? device.actualState : 'Empty'}}</h4>
-		<h4>Last ping: {{device.lastPing}}</h4>
-		<hr />
+		<div class="row">
 
-		<div class="row"></div>
-		<div class="col-sm-6">
-			<h3>States history:</h3>
+			<div class="col-sm-6">
+				<h4>Secret key: {{device.secretKey}}</h4>
+				<h4>Connection state: {{device.connectionState}}</h4>
+				<h4>Actual device state: {{device.actualState ? device.actualState : 'Empty'}}</h4>
+				<h4>Last ping: {{device.lastPing}}</h4>
+				<hr />
+			</div>
+			<div class="col-sm-6">
+
+
+				<form>
+					<div class="form-group">
+						<h4 class="form-login-heading">Set device state:</h4>
+						<input type="text" class="form-control" placeholder="State..." data-ng-model="messageToDevice.message" required autofocus>
+					</div>
+					<button class="btn btn-info" type="submit" ng-click="login()">Set</button>
+				</form>
+			</div>
 
 		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>States history:</h3>
 
-		<div class="col-sm-6">
-			<h3>Data history:</h3>
+				<div ng-repeat="deviceHistoryState in deviceStatesHistory">
+					{{deviceHistoryState.stateTransitionDateTime}} : {{deviceHistoryState.state}}
+				</div>
+			</div>
 
+			<div class="col-sm-6">
+				<h3>Messages history:</h3>
 
+				<div ng-repeat="deviceHistoryMessage in deviceMessagesHistory">
+					{{deviceHistoryMessage.messageDateTime}} : {{deviceHistoryMessage.messageContent}}
+				</div>
+			</div>
 		</div>
-
 
 	</div>
 </div>

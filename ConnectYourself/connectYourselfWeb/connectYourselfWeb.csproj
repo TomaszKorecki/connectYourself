@@ -66,7 +66,7 @@
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\devicesService.js" />
-    <Content Include="app\services\ordersService.js" />
+    <Content Include="app\services\signalRService.js" />
     <Content Include="app\views\deviceDetailView.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />

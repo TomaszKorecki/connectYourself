@@ -32,6 +32,7 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
+app.value('signalRUrl', 'http://localhost:55932/signalR');
 
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');

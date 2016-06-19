@@ -54,5 +54,9 @@ namespace connectYourselfAPI.DBContexts {
 			}
 			return false;
 		}
+
+		public void SetupFreshLastPing(Device device) {
+			device.LastPing = DateTime.Now;
+		}
 	}
 }

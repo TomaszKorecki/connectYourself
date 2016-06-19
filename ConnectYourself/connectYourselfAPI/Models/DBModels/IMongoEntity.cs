@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace connectYourselfAPI.Models {
 	public interface IMongoEntity {
-		string Id { get; }
+		string Id { get; set; }
 	}
 }

@@ -17,6 +17,7 @@ namespace ConnectYourselfClient
 	    private const string ServerHubName = "DevicesHub";
 	    private const string ConnectMethod = "ConnectDevice";
 	    private const string SendMessageMethod = "SendDeviceData";
+	    private const string SetStateMethod = "SetDeviceState";
 		private string ServerUrl { get; }
 
 		private IHubProxy HubProxy { get; set; }
@@ -59,5 +60,13 @@ namespace ConnectYourselfClient
 				Data = message
 			});
 		}
+
+	    public async Task SetNewState(string state) {
+		    await HubProxy.Invoke(SetStateMethod, new SetDeviceStateData() {
+			    DeviceName = DeviceName,
+			    SecretKey = SecretKey,
+			    DeviceState = state
+		    });
+	    }
     }
 }
