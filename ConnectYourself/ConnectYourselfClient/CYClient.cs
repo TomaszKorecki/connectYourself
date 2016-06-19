@@ -20,7 +20,7 @@ namespace ConnectYourselfClient
 	    private const string SetStateMethod = "SetDeviceState";
 		private string ServerUrl { get; }
 
-		private IHubProxy HubProxy { get; set; }
+		public IHubProxy HubProxy { get; set; }
 
 		public string DeviceName { get; }
 		public string SecretKey { get; }
@@ -38,6 +38,7 @@ namespace ConnectYourselfClient
 
 		    DeviceName = deviceName;
 		    SecretKey = secretKey;
+
 
 		    ConnectToServer().Wait();
 	    }

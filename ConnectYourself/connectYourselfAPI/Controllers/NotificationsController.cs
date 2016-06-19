@@ -81,7 +81,7 @@ namespace connectYourselfAPI.Controllers
 				return Ok(newRule);
 			}
 
-			return BadRequest("Devices  with such name does not exists");
+			return BadRequest("Devices  with such name do not exists");
 		}
 
 		[Authorize]

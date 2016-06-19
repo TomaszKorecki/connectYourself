@@ -4,7 +4,7 @@
 
 	<div class="container">
 		<div class="page-header text-center">
-			<h1>Notifications</h1>
+			<h1>Notification rules</h1>
 		</div>
 
 		<table class="table table-striped">
@@ -23,6 +23,9 @@
 					<td>{{rule.sourceMessage}}</td>
 					<td>{{rule.targetDeviceName}}</td>
 					<td>{{rule.targetMessage}}</td>
+					<td>
+						<button type="button" class="btn btn-default" data-ng-click="onRemoveNotificationRule($index)"><span class="glyphicon glyphicon-remove"></span></button>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -38,7 +41,10 @@
 						<input type="text" class="form-control" placeholder="Target msg..." data-ng-model="addNewNotificationRule.targetMessage" required autofocus>
 					</td>
 					<td>
-						<button class="btn btn-info" type="submit" data-ng-click="onAddNewNotificationRule()">Add</button>
+						<button class="btn btn-info" type="submit" data-ng-click="onAddNewNotificationRule()">
+							<span class="glyphicon glyphicon-plus">
+							</span>
+						</button>
 					</td>
 				</tr>
 			</tbody>

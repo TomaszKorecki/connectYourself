@@ -11,6 +11,7 @@ namespace connectYourselfAPI.EventsControllers {
 		public DevicesEventsContainer() {
 			SubscribeToDeviceStateChangedEvent(UsersNotifier.OnUserDeviceStateChanged);
 			SubscribeToDeviceMessageReceivedEvent(UsersNotifier.OnUserDeviceMessageReceived);
+			SubscribeToDeviceMessageReceivedEvent(DevicesNotificationRulesHandler.OnUserDeviceMessageReceived);
 		}
 
 		

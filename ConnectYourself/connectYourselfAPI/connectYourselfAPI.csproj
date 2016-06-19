@@ -223,6 +223,7 @@
     <Compile Include="DBContexts\MongoConnectionHandler.cs" />
     <Compile Include="DBContexts\EntityServices\UserDeviceService.cs" />
     <Compile Include="EventsControllers\DevicesEventsContainer.cs" />
+    <Compile Include="EventsControllers\DevicesNotificationRulesHandler.cs" />
     <Compile Include="EventsControllers\IDevicesEventsContainer.cs" />
     <Compile Include="EventsControllers\Models\DeviceMessageEvent.cs" />
     <Compile Include="EventsControllers\Models\DeviceStateChangedEvent.cs" />

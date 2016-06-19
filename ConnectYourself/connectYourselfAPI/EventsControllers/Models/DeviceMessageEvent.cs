@@ -8,6 +8,7 @@ namespace connectYourselfAPI.EventsControllers.Models {
 		public string Message { get; set; }
 		public DateTime DateTime { get; set; }
 		public string DeviceId { get; set; }
+		public string DeviceName { get; set; }
 		public string AppUserId { get; set; }
 	}
 }

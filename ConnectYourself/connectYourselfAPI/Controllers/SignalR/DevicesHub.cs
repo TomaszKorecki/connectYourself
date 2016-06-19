@@ -95,7 +95,8 @@ namespace connectYourselfAPI.Controllers.SignalR {
 					DeviceId = device.Id,
 					DateTime = deviceMessage.MessageDateTime,
 					Message = deviceMessage.MessageContent,
-					AppUserId = device.AppUserId
+					AppUserId = device.AppUserId,
+					DeviceName = device.Name
 				});
 			}
 		}

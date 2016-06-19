@@ -34,19 +34,19 @@ namespace connectYourselfAPI.EventsControllers {
 			}
 		}
 
-		public static void OnUserDeviceMessageReceived(DeviceMessageEvent deviceStateChangedEvent) {
+		public static void OnUserDeviceMessageReceived(DeviceMessageEvent deviceMessageEvent) {
 			var context = GlobalHost.ConnectionManager.GetHubContext<UsersHub>();
 
-			if (UsersConnections.ContainsKey(deviceStateChangedEvent.AppUserId)) {
+			if (UsersConnections.ContainsKey(deviceMessageEvent.AppUserId)) {
 				UserDeviceService userDeviceService = new UserDeviceService();
-				var device = userDeviceService.GetById(deviceStateChangedEvent.DeviceId);
+				var device = userDeviceService.GetById(deviceMessageEvent.DeviceId);
 
 				if (device != null) {
-					var connection = UsersConnections[deviceStateChangedEvent.AppUserId];
+					var connection = UsersConnections[deviceMessageEvent.AppUserId];
 
 					context.Clients.Client(connection.ConnectionId).notifyAboutDeviceMessageReceived(new DeviceMessageReceivedNotification() {
-						DateTime = deviceStateChangedEvent.DateTime,
-						Message = deviceStateChangedEvent.Message,
+						DateTime = deviceMessageEvent.DateTime,
+						Message = deviceMessageEvent.Message,
 						DeviceName = device.Name,
 						Id = device.Id
 					});
