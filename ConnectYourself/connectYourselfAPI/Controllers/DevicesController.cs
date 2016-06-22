@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web.Http;
 using connectYourselfAPI.App_Start;
+using connectYourselfAPI.Controllers.SignalR;
 using connectYourselfAPI.DBContexts;
 using connectYourselfAPI.DBContexts.EntityServices;
 using connectYourselfAPI.EventsControllers;
@@ -12,6 +13,7 @@ using connectYourselfAPI.Models.ViewModels;
 using connectYourselfLib.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -22,7 +24,7 @@ namespace connectYourselfAPI.Controllers
     [RoutePrefix("api/Devices")]
     public class DevicesController : ApiController
     {
-        [Authorize]
+        [System.Web.Http.Authorize]
         [Route("")]
         public IHttpActionResult Get()
         {
@@ -33,7 +35,7 @@ namespace connectYourselfAPI.Controllers
         }
 
 		//api/devices/deviceId
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[Route("{deviceId}")]
 		public IHttpActionResult GetDeviceDetails(string deviceId) {
 			var userId = User.Identity.GetUserId();
@@ -61,7 +63,7 @@ namespace connectYourselfAPI.Controllers
 		}
 
 		//api/devices/getDeviceStatesHistory
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[Route("getDeviceStatesHistory/{deviceId}")]
 		public IHttpActionResult GetDeviceStatesHistory(string deviceId, int startIndex = 0, int limit = 30) {
 			var userId = User.Identity.GetUserId();
@@ -88,7 +90,7 @@ namespace connectYourselfAPI.Controllers
 		}
 
 		//api/devices/getDeviceMessagesHistory
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[Route("getDeviceMessagesHistory/{deviceId}")]
 		public IHttpActionResult GetDeviceMessagesHistory(string deviceId, int startIndex = 0, int limit = 30) {
 			var userId = User.Identity.GetUserId();
@@ -114,7 +116,7 @@ namespace connectYourselfAPI.Controllers
 			return BadRequest("Device does not exist");
 		}
 
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[HttpPost]
 		[Route]
 		public IHttpActionResult Post(AddNewDeviceViewModel addNewDeviceViewModel) {
@@ -146,7 +148,7 @@ namespace connectYourselfAPI.Controllers
 			return Ok(device);
 		}
 
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[HttpDelete]
 		[Route("{id}")]
 		public IHttpActionResult Delete(string id) {
@@ -169,7 +171,7 @@ namespace connectYourselfAPI.Controllers
 			}
 		}
 
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[HttpPut]
 		[Route]
 		public IHttpActionResult Put(ChangeDeviceViewModel device) {
@@ -197,7 +199,7 @@ namespace connectYourselfAPI.Controllers
 			}
 		}
 
-		[Authorize]
+		[System.Web.Http.Authorize]
 		[HttpPost]
 		[Route("setDeviceState")]
 		public IHttpActionResult SetDeviceState(SetDeviceStateData setDeviceStateData) {
@@ -230,6 +232,12 @@ namespace connectYourselfAPI.Controllers
 						State = setDeviceStateData.DeviceState,
 						AppUserId = device.AppUserId
 					});
+
+					//send state change message to device
+					if (device.ConnectionState == DeviveConnectionState.FullDuplex && !String.IsNullOrEmpty(device.ConnectionId)) {
+						var devicesHub = GlobalHost.ConnectionManager.GetHubContext<DevicesHub>();
+						devicesHub.Clients.Client(device.ConnectionId).RemoteSetState(setDeviceStateData.DeviceState);
+					}
 
 					return Ok();
 				} else {

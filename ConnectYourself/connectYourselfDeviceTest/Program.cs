@@ -25,7 +25,7 @@ namespace connectYourselfDeviceTest {
 		static void SimulateDevice1() {
 			CYClient connectYouselfClient;
 			try {
-				connectYouselfClient = new CYClient("Sample1", "c6bef65cd9cb48b0b98503bb1e6270a6", "http://localhost:55932/signalR");
+				connectYouselfClient = new CYClient("Kitchen termometer", "75c2ea8481cc48f98a63d6e211b2eb05", "http://localhost:55932/signalR");
 				Console.WriteLine("Device 1 Registered on server...");
 
 				connectYouselfClient.HubProxy.On("NotificationRule", (msg) => {
@@ -62,13 +62,13 @@ namespace connectYourselfDeviceTest {
 		static void SimulateDevice2() {
 			CYClient connectYouselfClient;
 			try {
-				connectYouselfClient = new CYClient("Sample2", "46637c28667c4384a16aae3b1b2c60b5", "http://localhost:55932/signalR");
+				connectYouselfClient = new CYClient("Outside lamp", "88070692154945899ec7a6b22456a19b", "http://localhost:55932/signalR");
 				Console.WriteLine("Device 2 Registered on server...");
 
 				Random random = new Random();
 				Task.Run(async () => {
 					while (true) {
-						var message = "Hello to device 1";
+						var message = "Hello to device termometer";
 						Console.WriteLine(message);
 						connectYouselfClient.SendMessageToServer(message);
 						await Task.Delay(random.Next(3000, 6000));
